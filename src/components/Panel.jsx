@@ -1,4 +1,6 @@
 import styles from '../styles/Panel.module.css'
+import Note from './Note.jsx'
+
 import { useState } from 'react';
 
 const totalNotes = [
@@ -13,6 +15,10 @@ const totalNotes = [
     {
      id: 3,
      note: "deepak is fuckboy"
+    },
+    {
+     id: 5,
+     note: "kanhaiya is popular in girls"
     },
     {
      id: 4,
@@ -56,6 +62,7 @@ export default function Panel() {
           </li>
         ))}
 
+            <Note/>
       </ul>
     </main>
         </div>
