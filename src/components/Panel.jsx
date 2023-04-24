@@ -15,6 +15,12 @@ const styles = {
     right: "20px",
     boxShadow: "3px 3px 14px rgba(1, 1, 1, 0.2)",
     zIndex: "10000"
+  },
+
+  notes_list: {
+    listStyleType: "none",
+    padding: 0,
+    margin: 0,
   }
 }
 
@@ -41,7 +47,7 @@ export default function Panel() {
     <div className='panel' style={styles.panel}>
       <Search onTyping={() => search()} />
 
-      <ul>
+      <ul style={styles.notes_list}>
         {currentNotes.map((item) => (
           <li key={item.id}>
             <strong>{item.note}</strong>
