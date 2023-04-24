@@ -1,30 +1,23 @@
-import styles from '../styles/Panel.module.css'
+// import styles from '../styles/Panel.module.css'
 import Search from './Search'
 import Note from './Note.jsx'
 import { useState } from 'react'
+import { totalNotes } from '../store'
 
-const totalNotes = [
-  {
-    id: 1,
-    note: "abc"
-  },
-  {
-    id: 2,
-    note: "there is nothing left"
-  },
-  {
-    id: 3,
-    note: "deepak is fuckboy"
-  },
-  {
-    id: 5,
-    note: "kanhaiya is popular in girls"
-  },
-  {
-    id: 4,
-    note: "aniket is playboy"
+const styles = {
+  panel: {
+    width: "410px",
+    height: "550px",
+    backgroundColor: "#f5f5f5",
+    borderRadius: "10px",
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    boxShadow: "3px 3px 14px rgba(1, 1, 1, 0.2)",
+    zIndex: "10000"
   }
-]
+}
+
 
 export default function Panel() {
   const [currentNotes, setCurrentNotes] = useState(totalNotes);
@@ -45,8 +38,7 @@ export default function Panel() {
   }
 
   return (
-    <div className={styles.panel}>
-      <h1>Saved Notes</h1>
+    <div className='panel' style={styles.panel}>
       <Search onTyping={() => search()} />
 
       <ul>
