@@ -1,0 +1,33 @@
+.search {
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.bar {
+    outline: none;
+    border: 0;
+    display: inline;
+    width: 60%;
+    height: 3rem;
+    padding: 0 2rem;
+    font-size: 0.8rem;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.button {
+    cursor: pointer;
+    height: 3rem;
+    display: inline-block;
+    width: 20%;
+    background-color: var(--color-accent);
+    color: var(--color-offwhite);
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.search_icon {
+    transform: translateY(2px) scale(0.5);
+}

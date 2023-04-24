@@ -347,3 +347,11 @@ template {
 [hidden] {
   display: none;
 }
+
+:root {
+  --color-offwhite: #f5f5f5;
+  --color-white: #ffffff;
+  --color-accent: #232323;
+  --color-dark-purple: #a89fca;
+  --color-light-purple: #ddd7f0;
+}
