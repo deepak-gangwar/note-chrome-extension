@@ -7,11 +7,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        //     "popup": path.resolve('src/popup'),
-        //     // options: path.resolve('src/options/options.tsx'),
-        //     "background": path.resolve('src/background'),
+        // "popup": path.resolve('src/popup'),
+        // options: path.resolve('src/options/options.tsx'),
+        "background": path.resolve('src/background'),
         "content-script": path.resolve('src/content-script'),
-        //     // newTab: path.resolve('src/tabs/index.tsx')
+        // newTab: path.resolve('src/tabs/index.tsx')
       },
       output: {
         entryFileNames: '[name].js',
