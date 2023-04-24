@@ -1,28 +1,7 @@
-// import styles from '../styles/Panel.module.css'
 import Search from './Search'
 import Note from './Note.jsx'
 import { useState } from 'react'
 import { totalNotes } from '../store'
-
-const styles = {
-  panel: {
-    width: "410px",
-    height: "550px",
-    backgroundColor: "#f5f5f5",
-    borderRadius: "10px",
-    position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    boxShadow: "3px 3px 14px rgba(1, 1, 1, 0.2)",
-    zIndex: "10000"
-  },
-
-  notes_list: {
-    listStyleType: "none",
-    padding: 0,
-    margin: 0,
-  }
-}
 
 
 export default function Panel() {
@@ -50,12 +29,31 @@ export default function Panel() {
       <ul style={styles.notes_list}>
         {currentNotes.map((item) => (
           <li key={item.id}>
-            <strong>{item.note}</strong>
+            {/* <strong>{item.note}</strong> */}
+            <Note content={item.note} />
           </li>
         ))}
-
-        <Note />
       </ul>
     </div>
   )
+}
+
+const styles = {
+  panel: {
+    width: "410px",
+    height: "550px",
+    backgroundColor: "#f5f5f5",
+    borderRadius: "10px",
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    boxShadow: "3px 3px 14px rgba(1, 1, 1, 0.2)",
+    zIndex: "10000"
+  },
+
+  notes_list: {
+    listStyleType: "none",
+    padding: 0,
+    margin: 0,
+  }
 }

@@ -1,9 +1,0 @@
-.note_wrap {
-    box-sizing: border-box;
-    width: calc(100% - 5rem);
-    font-size: 0.9rem;
-    margin: 5px auto;
-    padding: 0.1rem 1rem;
-    border-radius: 10px;
-    background-color: var(--color-dark-purple);
-}
