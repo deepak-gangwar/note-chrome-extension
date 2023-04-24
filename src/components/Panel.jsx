@@ -52,7 +52,7 @@ export default function Panel() {
       <ul>
         {currentNotes.map((item) => (
           <li key={item.id}>
-            <strong>{item.note}</strong>
+            <strong><Note noteString = {item.note}/> </strong>
           </li>
         ))}
 
