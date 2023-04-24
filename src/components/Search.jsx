@@ -40,7 +40,7 @@ const styles = {
         cursor: "pointer",
         height: "2.4rem",
         display: "inline-block",
-        width: "16%",
+        width: "25%",
         backgroundColor: "#232323",
         color: "#f5f5f5",
         textAlign: "center",
