@@ -1,27 +1,71 @@
 import { useState } from 'react'
 import './App.css'
 
+const totalNotes = [
+ {
+  id: 1,
+  note: "abc"
+ },
+ {
+  id: 2,
+  note: "abc"
+ }  
+]
+
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const [currentNotes, setCurrentNotes] = useState(totalNotes);
+
+  const search = async (q) => {
+    console.log(q)
+    // const response = await fetch(
+    //   'http://localhost:8080?' + new URLSearchParams({ q })
+    // );
+    // const currentNotes = await response.json();
+    
+    // const searchedNotes = jsonArray.filter(element => {
+    //   return element.hobbies.some(hobby => hobby.includes(substring));
+    // });
+
+    
+    setCurrentNotes(totalNotes);
+  };
 
   return (
-    <>
-      <div>
-      </div>
-      <h1>Vite + React Project</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main>
+      <h1>Animal Farm</h1>
+      <input type="text" placeholder="Search" onChange={(e) => search(e.target.value)} />
+      <ul>
+        {currentNotes.map((item) => (
+          <li key={item.id}>
+            <strong>{item.note}</strong>
+          </li>
+        ))}
+
+      </ul>
+    </main>
+
+
+
+
+
+  // return (
+  //   <div className="search-box">
+  //     <input
+  //       type="text"
+  //       placeholder="Search..."
+  //       onChange={handleChange}
+  //       value={searchTerm}
+  //     />
+  //     <ul>
+  //     <li> note 1
+  //     </li>
+  //     <li> note 2
+  //     </li>
+  //     </ul>
+  //   </div>
+  );
 }
+
 
 export default App
