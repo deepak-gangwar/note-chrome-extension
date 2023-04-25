@@ -1,11 +1,19 @@
 import styles from './styles'
 import Editor from './Editor'
-import { useState } from 'react'
+import { useState, useContext, useRef } from 'react'
+import { TotalNotesContext } from '../Panel';
 
 
-export default function Note({ content }) {
+export default function Note({ myItem }) {
+    const content = myItem.note
+    const inputDiv = useRef(null)
+
+    const [isEditable, setEditable] = useState(false)
+    const [inputValue, setInputValue] = useState(content)
     const [isNoteActive, setIsNoteActive] = useState(false)
     const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
+
+    const { currentList } = useContext(TotalNotesContext);
 
     // FOR HOVER STYLES
     function handleNoteMouseEnter() {
@@ -25,22 +33,34 @@ export default function Note({ content }) {
     }
 
     function makeEditable() {
-        setIsNoteActive(!isNoteActive)
+        if (!isEditable) {
+            setIsNoteActive(!isNoteActive)
 
-        // CHANGE COLOR OF ACTIVE NOTE
-        if (isNoteActive) {
-            setComponentStyles({ ...styles.note_wrap })
-        } else {
-            setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
+            // CHANGE COLOR OF ACTIVE NOTE
+            if (isNoteActive) {
+                setComponentStyles({ ...styles.note_wrap })
+            } else {
+                setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
+            }
         }
+    }
+
+    function editNote() {
+        setEditable(!isEditable)
+        if (isEditable) saveEditedNote(myItem)
+    }
+
+    function saveEditedNote(myItem) {
+        var foundIndex = currentList.findIndex(x => x.id == myItem.id);
+        currentList[foundIndex].note = inputValue;
     }
 
     return (
         <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
             <div style={styles.content_wrap} onClick={makeEditable}>
-                <p className='chromenote-note_content' style={styles.note_content}>{content}</p>
+                <div ref={inputDiv} onInput={e => setInputValue(e.currentTarget.textContent)} contentEditable={isEditable} className='chromenote-note_content' style={styles.note_content}>{content}</div >
             </div>
-            {isNoteActive ? <Editor content={content} /> : ''}
+            {isNoteActive ? <Editor onClickEdit={editNote} content={content} /> : ''}
         </div>
     );
 }

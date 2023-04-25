@@ -4,12 +4,12 @@ import { useState, useContext } from 'react';
 import { TotalNotesContext } from '../../Panel';
 
 
-export default function Editor({ content }) {
+export default function Editor({ content, onClickEdit }) {
     const [copyIconOpacity, setCopyIconOpacity] = useState(0.6)
     const [editIconOpacity, setEditIconOpacity] = useState(0.6)
     const [deleteIconOpacity, setDeleteIconOpacity] = useState(0.6)
-
     const { currentList, updateCurrentList } = useContext(TotalNotesContext);
+    const [isEditing, setIsEditing] = useState(false)
 
     const copyBtn = useRef(null)
 
@@ -19,6 +19,8 @@ export default function Editor({ content }) {
         return Promise.reject('The Clipboard API is not available.');
     };
 
+    //NOTE Copy to clipboard
+    //======================
     const copyNote = () => {
         copyToClipboardAsync(content);
 
@@ -28,9 +30,16 @@ export default function Editor({ content }) {
         }, 1000)
     }
 
-    const editNote = () => { }
+    //NOTE Edit Note
+    //==============
+    const editNote = () => {
+        onClickEdit()
+        setIsEditing(!isEditing)
+    }
 
 
+    //NOTE Delete Note
+    //================
     const deleteNote = () => {
         updateCurrentList(content)
     }
@@ -62,7 +71,6 @@ export default function Editor({ content }) {
         setDeleteIconOpacity(0.6)
     }
 
-    let isEditing = false
     let editIcon = isEditing ? (
         <svg style={styles.editor_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" >
             <g opacity={editIconOpacity} style={styles.editor_svg_save}>
