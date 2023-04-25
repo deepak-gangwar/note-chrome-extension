@@ -3,6 +3,7 @@ import Search from '../Search'
 import Note from '../Note'
 import { useState } from 'react'
 import { totalNotes } from '../../store'
+import TitleBar from '../TitleBar'
 
 export default function Panel() {
     const [currentNotes, setCurrentNotes] = useState(totalNotes)
@@ -18,6 +19,7 @@ export default function Panel() {
 
     return (
         <div className='panel' style={styles.panel}>
+            <TitleBar title={"App"} />
             <Search onTyping={() => search()} />
 
             <ul className='chromenote-notes_list' style={styles.notes_list}>
