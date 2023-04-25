@@ -36,8 +36,10 @@ export default function Note({ content }) {
     }
 
     return (
-        <div className='chromenote-note_wrap' style={componentStyles} onClick={makeEditable} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
-            <p className='chromenote-note_content' style={styles.note_content}>{content}</p>
+        <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
+            <div style={styles.content_wrap} onClick={makeEditable}>
+                <p className='chromenote-note_content' style={styles.note_content}>{content}</p>
+            </div>
             {isNoteActive ? <Editor content={content} /> : ''}
         </div>
     );

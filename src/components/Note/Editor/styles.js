@@ -2,7 +2,8 @@ export default {
     noteEditor: {
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        padding: "0 1rem"
     },
 
     editor_controls: {
