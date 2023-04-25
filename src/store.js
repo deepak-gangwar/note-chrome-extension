@@ -1,4 +1,4 @@
-export const totalNotes = [
+export const Store = [
     {
         id: 1,
         note: "abc"
@@ -12,11 +12,11 @@ export const totalNotes = [
         note: "deepak is fuckboy"
     },
     {
-        id: 5,
+        id: 4,
         note: "kanhaiya is popular in girls"
     },
     {
-        id: 4,
+        id: 5,
         note: "aniket is playboy"
     }
 ]
