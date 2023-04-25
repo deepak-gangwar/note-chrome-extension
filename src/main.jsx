@@ -4,10 +4,10 @@ import App from './App.jsx'
 import './styles/index.css'
 
 const app = document.createElement('div')
-app.setAttribute('id', 'extension-app')
+app.setAttribute('id', 'note-chrome-extension-app')
 document.body.appendChild(app)
 
-ReactDOM.createRoot(document.getElementById('extension-app')).render(
+ReactDOM.createRoot(document.getElementById('note-chrome-extension-app')).render(
     <React.StrictMode>
         <App />
     </React.StrictMode>,

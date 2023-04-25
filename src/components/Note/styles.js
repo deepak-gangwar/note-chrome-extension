@@ -9,5 +9,10 @@ export default {
         borderRadius: "10px",
         background: "#a89fca",
         color: "#232323",
+    },
+
+    note_content: {
+        marginBlockStart: "1em",
+        marginBlockEnd: "1em",
     }
 }
