@@ -1,11 +1,22 @@
-export default{
-    noteEditor : {
-        display : "flex",
-        justifyContent : "space-between"
+export default {
+    noteEditor: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
 
-    controls : {
-        display : "flex",
-        gap : "1rem"
+    editor_controls: {
+        display: "flex",
+        gap: "1rem"
+    },
+
+    collapse: {
+        userSelect: "none",
+        fontSize: "0.8rem",
+        opacity: "0.8"
+    },
+
+    editor_icon: {
+        transform: 'scale(0.5)'
     }
 }
