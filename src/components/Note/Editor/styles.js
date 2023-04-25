@@ -29,5 +29,10 @@ export default {
 
     editor_svg: {
         transition: "opacity 0.25s cubic-bezier(.84, .4, .07, .7)",
+    },
+
+    editor_svg_save: {
+        transition: "opacity 0.25s cubic-bezier(.84, .4, .07, .7)",
+        transform: 'translateY(4px) scale(0.82)',
     }
 }
