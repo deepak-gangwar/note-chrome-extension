@@ -8,7 +8,7 @@ app.setAttribute('id', 'extension-app')
 document.body.appendChild(app)
 
 ReactDOM.createRoot(document.getElementById('extension-app')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 )
