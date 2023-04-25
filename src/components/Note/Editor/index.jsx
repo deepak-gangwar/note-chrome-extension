@@ -29,11 +29,10 @@ export default function Editor({ content, onClickEdit }) {
     //NOTE Edit Note
     //==============
     const editNote = () => {
-        console.log("Edit Note is Clicked")
         onClickEdit()
     }
 
-    
+
     //NOTE Delete Note
     //================
     const deleteNote = () => {
