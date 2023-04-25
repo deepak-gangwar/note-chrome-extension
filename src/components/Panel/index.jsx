@@ -3,47 +3,40 @@ import Search from '../Search'
 import Note from '../Note'
 import { useState, createContext, createFactory } from 'react'
 import { Store } from '../../store'
-import { useEffect } from 'react'
 import TitleBar from '../TitleBar'
 
 
 export const TotalNotesContext = createContext(Store);
 
 export default function Panel() {
-    const [arr, setArr] = useState(Store)
+    const [listToRender, setListToRender] = useState(Store)
     const [currentList, setCurrentList] = useState(Store)
 
-    // function updateCurrentList(listItems){
-        // console.log("this is ultimate goal")
-        // setCurrentList(listItems)
-        // allNotes = listItems
-    // }
 
-    // DELETE NOTE
-    function dummy(str) {
+    // NOTE DELETION LOGIC
+    // ===================
+
+    function updateCurrentList(content){
         let noteToBeRemoved = undefined
         currentList.forEach(item => {
-            if(item.note === str) {
+            if(item.note === content) {
                 noteToBeRemoved = item
             }
         })
-
         const notesAfterRemoving = currentList.filter(element => element !== noteToBeRemoved)
         setCurrentList(notesAfterRemoving)
-        setArr(currentList)
-    }
+        setListToRender(notesAfterRemoving)
 
-    // useEffect(() => search(), [])
+    }
 
 
     // FILTER NOTES
     // ===========
 
-    const search = () => {
-        const query = localStorage.getItem("query")
+    const search = (str) => {
+        const query = str ? str : localStorage.getItem("query")
         const filteredNotes = currentList.filter(element => element.note.includes(query))
-        setArr(filteredNotes)
-        console.log(arr)
+        setListToRender(filteredNotes)
     }
 
     return (
@@ -53,9 +46,11 @@ export default function Panel() {
 
             <ul className='chromenote-notes_list' style={styles.notes_list}>
                 {
-                    arr.map((item) => (
+                    listToRender.map((item) => (
                         <li key={item.id} >
-                            <Note content={item.note} handler={dummy} />
+                            <TotalNotesContext.Provider value = {{currentList, updateCurrentList}}>
+                                <Note content = {item.note} />
+                            </TotalNotesContext.Provider>
                         </li>
                 ))}
 
@@ -63,19 +58,3 @@ export default function Panel() {
         </div>
     )
 }
-
-
-
-// {currentList.map((item) => (
-//     <li key={item.id} >
-//         <Note content={item.note} handler={dummy} />
-//     </li>
-// ))}
-
-// {currentList.map((item) => (
-//     <li key={item.id} >
-//         <TotalNotesContext.Provider value = {{currentList, updateCurrentList}}>
-//             <Note content = {item.note} />
-//         </TotalNotesContext.Provider>
-//     </li>
-// ))}

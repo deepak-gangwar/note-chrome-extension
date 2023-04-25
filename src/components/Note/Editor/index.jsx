@@ -4,10 +4,7 @@ import { useContext } from 'react';
 import { TotalNotesContext } from '../../Panel';
 
 
-
-
 export default function Editor({content}) {
-
     const {currentList, updateCurrentList} = useContext(TotalNotesContext);
 
     const copyBtn = useRef(null)
@@ -31,19 +28,7 @@ export default function Editor({content}) {
 
 
     const deleteNote = () => {
-        let index,count = 0;
-        currentList.forEach((item) => {
-            if(item.note === content) {
-                index = count
-            }
-            count++
-        })
-
-        currentList.splice(index, 1)
-        // setCurrentList(currentList)
-        console.log(currentList)
-        // handler()
-        updateCurrentList(currentList)
+        updateCurrentList(content)
     }
 
 
