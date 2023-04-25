@@ -26,7 +26,6 @@ export default function Panel() {
         const notesAfterRemoving = currentList.filter(element => element !== noteToBeRemoved)
         setCurrentList(notesAfterRemoving)
         setListToRender(notesAfterRemoving)
-
     }
 
 
@@ -49,7 +48,7 @@ export default function Panel() {
                     listToRender.map((item) => (
                         <li key={item.id} >
                             <TotalNotesContext.Provider value={{ currentList, updateCurrentList }}>
-                                <Note content={item.note} />
+                                <Note myItem={item} />
                             </TotalNotesContext.Provider>
                         </li>
                     ))}
