@@ -7,13 +7,13 @@ export default {
 
     editor_controls: {
         display: "flex",
-        gap: "1rem"
+        // gap: "1rem"
     },
 
     collapse: {
         userSelect: "none",
         fontSize: "0.8rem",
-        opacity: "0.8"
+        opacity: "0.6"
     },
 
     editor_icon: {
