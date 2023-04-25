@@ -1,7 +1,7 @@
 import styles from './styles'
 import Search from '../Search'
 import Note from '../Note'
-import { useState, createContext, createFactory } from 'react'
+import { useState, createContext } from 'react'
 import { Store } from '../../store'
 import TitleBar from '../TitleBar'
 
@@ -16,10 +16,10 @@ export default function Panel() {
     // NOTE DELETION LOGIC
     // ===================
 
-    function updateCurrentList(content){
+    function updateCurrentList(content) {
         let noteToBeRemoved = undefined
         currentList.forEach(item => {
-            if(item.note === content) {
+            if (item.note === content) {
                 noteToBeRemoved = item
             }
         })
@@ -48,11 +48,11 @@ export default function Panel() {
                 {
                     listToRender.map((item) => (
                         <li key={item.id} >
-                            <TotalNotesContext.Provider value = {{currentList, updateCurrentList}}>
-                                <Note content = {item.note} />
+                            <TotalNotesContext.Provider value={{ currentList, updateCurrentList }}>
+                                <Note content={item.note} />
                             </TotalNotesContext.Provider>
                         </li>
-                ))}
+                    ))}
 
             </ul>
         </div>

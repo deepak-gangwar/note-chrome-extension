@@ -1,6 +1,6 @@
 export default {
     search: {
-        padding: "4.5rem 2.5rem 2rem",
+        padding: "4.5rem 2.5rem 1.2rem",
         display: "flex",
         justifyContent: "center"
     },
