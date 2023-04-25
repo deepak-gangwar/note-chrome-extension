@@ -7,6 +7,23 @@ export default function Note({ content }) {
     const [isNoteActive, setIsNoteActive] = useState(false)
     const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
 
+    // FOR HOVER STYLES
+    function handleNoteMouseEnter() {
+        makeNoteColorLight()
+    }
+
+    function handleNoteMouseLeave() {
+        makeNoteColorDark()
+    }
+
+    function makeNoteColorLight() {
+        if (!isNoteActive) setComponentStyles({ ...styles.note_wrap, background: "#c7c1db", cursor: "pointer" })
+    }
+
+    function makeNoteColorDark() {
+        if (!isNoteActive) setComponentStyles({ ...styles.note_wrap })
+    }
+
     function makeEditable() {
         setIsNoteActive(!isNoteActive)
 
@@ -19,7 +36,7 @@ export default function Note({ content }) {
     }
 
     return (
-        <div className='chromenote-note_wrap' style={componentStyles} onClick={makeEditable}>
+        <div className='chromenote-note_wrap' style={componentStyles} onClick={makeEditable} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
             <p className='chromenote-note_content' style={styles.note_content}>{content}</p>
             {isNoteActive ? <Editor content={content} /> : ''}
         </div>
