@@ -6,9 +6,9 @@ import { TotalNotesContext } from '../../Panel';
 
 
 
-export default function Editor({content, handler}) {
+export default function Editor({content}) {
 
-    const {currentList, setCurrentList} = useContext(TotalNotesContext);
+    const {currentList, updateCurrentList} = useContext(TotalNotesContext);
 
     const copyBtn = useRef(null)
 
@@ -40,9 +40,10 @@ export default function Editor({content, handler}) {
         })
 
         currentList.splice(index, 1)
-        setCurrentList(currentList)
+        // setCurrentList(currentList)
         console.log(currentList)
-        handler()
+        // handler()
+        updateCurrentList(currentList)
     }
 
 
