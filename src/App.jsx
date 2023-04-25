@@ -1,13 +1,12 @@
-import './App.css'
+import './styles/App.css'
 import Panel from './components/Panel'
 
 function App() {
-  return (
-    <>
-      <Panel />
-    </>
-  )
+    return (
+        <>
+            <Panel />
+        </>
+    )
 }
-
 
 export default App

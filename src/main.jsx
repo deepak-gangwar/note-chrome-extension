@@ -1,15 +1,14 @@
 import React from 'react'
-import ReactDOM, { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
+import './styles/index.css'
 
 const app = document.createElement('div')
-app.setAttribute('id', 'extension-app')
+app.setAttribute('id', 'note-chrome-extension-app')
 document.body.appendChild(app)
 
-// ReactDOM.createRoot(document.createElement('div')).render(
-ReactDOM.createRoot(document.getElementById('extension-app')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+ReactDOM.createRoot(document.getElementById('note-chrome-extension-app')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 )
