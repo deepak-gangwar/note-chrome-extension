@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { TotalNotesContext } from '../../Panel';
 
 
-export default function Editor({ content }) {
+export default function Editor({ content, onClickEdit }) {
     const { currentList, updateCurrentList } = useContext(TotalNotesContext);
 
     const copyBtn = useRef(null)
@@ -15,6 +15,8 @@ export default function Editor({ content }) {
         return Promise.reject('The Clipboard API is not available.');
     };
 
+    //NOTE Copy to clipboard
+    //======================
     const copyNote = () => {
         copyToClipboardAsync(content);
 
@@ -24,9 +26,16 @@ export default function Editor({ content }) {
         }, 1000)
     }
 
-    const editNote = () => { }
+    //NOTE Edit Note
+    //==============
+    const editNote = () => {
+        console.log("Edit Note is Clicked")
+        onClickEdit()
+    }
 
-
+    
+    //NOTE Delete Note
+    //================
     const deleteNote = () => {
         updateCurrentList(content)
     }
