@@ -16,7 +16,17 @@ export default {
         opacity: "0.6"
     },
 
+    editor_btn: {
+        cursor: "pointer",
+        transition: "opacity .25s cubic-bezier(.84, .4, .07, .7)",
+    },
+
     editor_icon: {
+        transition: "opacity .25s cubic-bezier(.84, .4, .07, .7)",
         transform: 'scale(0.5)'
+    },
+
+    editor_svg: {
+        transition: "opacity 0.25s cubic-bezier(.84, .4, .07, .7)",
     }
 }

@@ -7,6 +7,8 @@ export default {
         margin: "8px auto",
         padding: "0.1rem 1rem",
         borderRadius: "10px",
+        transition: "all .2s linear",
+        // transition: "all .2s cubic-bezier(.84, .4, .07, .7)",
         background: "#a89fca",
         color: "#232323",
     },
