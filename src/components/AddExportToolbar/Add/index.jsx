@@ -1,19 +1,34 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styles from './styles'
 import QuickNote from './QuickNote'
 import { TotalNotesContext } from '../../Panel'
+import { ToggleToolbar } from '..'
 
 export default function Add() {
     const [isQuickNoteEnabled, setIsQuickNoteEnabled] = useState(false)
 
-    const { currentList, addNewNote } = useContext(TotalNotesContext)
+    const { currentList, isBlurScreenActive, addNewNote, activateBlurScreen } = useContext(TotalNotesContext)
+    const {showAddOrExportOnly, updateAddOrExport} = useContext(ToggleToolbar)
 
     function handleClick() {
         setIsQuickNoteEnabled(true)
+        activateBlurScreen(true)
+        updateAddOrExport("Add")
     }
+
+    useEffect(() => {
+        if(isQuickNoteEnabled) setIsQuickNoteEnabled(isBlurScreenActive)
+    },[isBlurScreenActive])
+
+    useEffect(() => {
+        if(showAddOrExportOnly === "Export"){
+            setIsQuickNoteEnabled(false)
+        }
+    },[showAddOrExportOnly])
 
     function handleDisable() {
         setIsQuickNoteEnabled(false)
+        activateBlurScreen(false)
     }
 
     function handleSave(str) {
@@ -30,7 +45,7 @@ export default function Add() {
         <main>
             {/* ============= BUTTON ============= */}
 
-            <div style={styles.btn_wrap}>
+            <div  style={styles.btn_wrap}>
                 <button style={styles.add_btn} onClick={handleClick}>
                     <span style={styles.icon}>
                         <svg style={styles.icon_svg} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

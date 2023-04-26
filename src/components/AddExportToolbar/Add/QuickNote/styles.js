@@ -1,12 +1,12 @@
 export default {
     quicknote_wrap: {
-        width: "110%",
+        width: "-webkit-fill-available",
         height: "150px",
         transform: "translateX(-5%)",
         borderRadius: "10px",
         background: "white",
-        position: "relative",
-        bottom: "240px",
+        position: "absolute",
+        bottom: "120px",
         zIndex: "5",
     },
 
