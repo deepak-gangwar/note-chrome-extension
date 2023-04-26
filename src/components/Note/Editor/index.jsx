@@ -1,48 +1,78 @@
 import styles from './styles'
 import { useRef } from 'react'
-import { useState, useContext } from 'react';
-import { TotalNotesContext } from '../../Panel';
+import { useState, useContext } from 'react'
+import { TotalNotesContext } from '../../Panel'
 
 
-export default function Editor({ content, onClickEdit }) {
+export default function Editor({ content, handleEditClick }) {
+    const { currentList, updateCurrentList } = useContext(TotalNotesContext)
+
+    // Used in hover styles to modify opacity
     const [copyIconOpacity, setCopyIconOpacity] = useState(0.6)
     const [editIconOpacity, setEditIconOpacity] = useState(0.6)
     const [deleteIconOpacity, setDeleteIconOpacity] = useState(0.6)
-    const { currentList, updateCurrentList } = useContext(TotalNotesContext);
-    const [isEditing, setIsEditing] = useState(false)
 
-    const copyBtn = useRef(null)
+    // Used to switch between two icons
+    const [isEditing, setIsEditing] = useState(false)
+    const [isCopied, setIsCopied] = useState(false)
+
+    // Used to change the message on bottom left corner when action is performed
+    const msg = useRef(null)
+
+
+    // CRUD FEATURES IMPLEMENTATION
+    // ============================
+
+    // Copy to clipboard ----------------------------------------------------
 
     function copyToClipboardAsync(str) {
         if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-            return navigator.clipboard.writeText(str);
-        return Promise.reject('The Clipboard API is not available.');
-    };
-
-    //NOTE Copy to clipboard
-    //======================
-    const copyNote = () => {
-        copyToClipboardAsync(content);
-
-        copyBtn.current.textContent = "Copied"
-        setTimeout(() => {
-            copyBtn.current.textContent = "Copy"
-        }, 1000)
+            return navigator.clipboard.writeText(str)
+        return Promise.reject('The Clipboard API is not available.')
     }
 
-    //NOTE Edit Note
-    //==============
+    const copyNote = () => {
+        copyToClipboardAsync(content)
+        copyMsg()
+        setIsCopied(true)
+        setTimeout(() => {
+            setIsCopied(false)
+        }, 1500)
+    }
+
+    // Edit -----------------------------------------------------------------
+
     const editNote = () => {
-        onClickEdit()
+        if (!isEditing) editMsg()
+        handleEditClick(saveMsg)
         setIsEditing(!isEditing)
     }
 
 
-    //NOTE Delete Note
-    //================
+    // Delete ---------------------------------------------------------------
+
     const deleteNote = () => {
         updateCurrentList(content)
     }
+
+    // MESSAGES
+    // ========
+
+    function editMsg() {
+        msg.current.textContent = "Edit mode on"
+        setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
+    }
+
+    function saveMsg() {
+        msg.current.textContent = "Saved"
+        setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
+    }
+
+    function copyMsg() {
+        msg.current.textContent = "Copied to clipboard!"
+        setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
+    }
+
 
     // HANDLE HOVER STYLES FOR EDITOR ICONS
     // ====================================
@@ -71,6 +101,9 @@ export default function Editor({ content, onClickEdit }) {
         setDeleteIconOpacity(0.6)
     }
 
+    // COPY AND EDIT ICONS
+    // ===================
+
     let editIcon = isEditing ? (
         <svg style={styles.editor_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" >
             <g opacity={editIconOpacity} style={styles.editor_svg_save}>
@@ -88,19 +121,32 @@ export default function Editor({ content, onClickEdit }) {
         </svg>
     )
 
+    let copyIcon = isCopied ? (
+        <svg style={styles.editor_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity={copyIconOpacity} style={styles.editor_svg_tick}>
+                <path d="M8.33333 23.3333L14.2331 27.7581C14.6618 28.0797 15.2677 28.0061 15.607 27.5914L30 10" stroke="#33363F" strokeWidth="3" strokeLinecap="round" />
+            </g>
+        </svg>
+    ) : (
+        <svg style={styles.editor_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity={copyIconOpacity} style={styles.editor_svg}>
+                <path d="M23.3327 11.6665V10.6665C23.3327 8.78089 23.3327 7.83808 22.7469 7.25229C22.1611 6.6665 21.2183 6.6665 19.3327 6.6665H10.666C8.7804 6.6665 7.83759 6.6665 7.2518 7.25229C6.66602 7.83808 6.66602 8.78089 6.66602 10.6665V19.3332C6.66602 21.2188 6.66602 22.1616 7.2518 22.7474C7.83759 23.3332 8.7804 23.3332 10.666 23.3332H11.666" stroke="#33363F" strokeWidth="3" />
+                <rect x="16.666" y="16.6665" width="16.6667" height="16.6667" rx="2" stroke="#33363F" strokeWidth="3" />
+            </g>
+        </svg>
+    )
+
     return (
         <div className='chromenote-noteEditor' style={styles.noteEditor}>
+            {/*  =========== Bottom left message ===========  */}
             <div className='chromenote-editor_left'>
-                <span style={styles.collapse}>Click to Collapse</span>
+                <span ref={msg} style={styles.collapse}>Click to Collapse</span>
             </div>
+
+            {/* ================= Controls ================== */}
             <div className='chromenote-editor_controls' style={styles.editor_controls}>
-                <span ref={copyBtn} onClick={copyNote} style={styles.editor_btn} onMouseEnter={handleCopyMouseEnter} onMouseLeave={handleCopyMouseLeave}>
-                    <svg style={styles.editor_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity={copyIconOpacity} style={styles.editor_svg}>
-                            <path d="M23.3327 11.6665V10.6665C23.3327 8.78089 23.3327 7.83808 22.7469 7.25229C22.1611 6.6665 21.2183 6.6665 19.3327 6.6665H10.666C8.7804 6.6665 7.83759 6.6665 7.2518 7.25229C6.66602 7.83808 6.66602 8.78089 6.66602 10.6665V19.3332C6.66602 21.2188 6.66602 22.1616 7.2518 22.7474C7.83759 23.3332 8.7804 23.3332 10.666 23.3332H11.666" stroke="#33363F" strokeWidth="3" />
-                            <rect x="16.666" y="16.6665" width="16.6667" height="16.6667" rx="2" stroke="#33363F" strokeWidth="3" />
-                        </g>
-                    </svg>
+                <span onClick={copyNote} style={styles.editor_btn} onMouseEnter={handleCopyMouseEnter} onMouseLeave={handleCopyMouseLeave}>
+                    {copyIcon}
                 </span>
                 <span onClick={editNote} style={styles.editor_btn} onMouseEnter={handleEditMouseEnter} onMouseLeave={handleEditMouseLeave}>
                     {editIcon}
@@ -117,6 +163,5 @@ export default function Editor({ content, onClickEdit }) {
                 </span>
             </div>
         </div>
-    );
+    )
 }
-

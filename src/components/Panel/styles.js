@@ -13,6 +13,8 @@ export default {
 
     notes_list: {
         listStyleType: "none",
+        height: "330px",
+        overflowY: "scroll",
         padding: 0,
         margin: 0,
     }

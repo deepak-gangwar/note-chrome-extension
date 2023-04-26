@@ -1,7 +1,7 @@
 import styles from './styles'
 import Editor from './Editor'
 import { useState, useContext, useRef } from 'react'
-import { TotalNotesContext } from '../Panel';
+import { TotalNotesContext } from '../Panel'
 
 
 export default function Note({ myItem }) {
@@ -15,7 +15,9 @@ export default function Note({ myItem }) {
 
     const { currentList } = useContext(TotalNotesContext);
 
-    // FOR HOVER STYLES
+    // HOVER STYLES
+    // ============
+
     function handleNoteMouseEnter() {
         makeNoteColorLight()
     }
@@ -32,7 +34,10 @@ export default function Note({ myItem }) {
         if (!isNoteActive) setComponentStyles({ ...styles.note_wrap })
     }
 
-    function makeEditable() {
+    // TOGGLE CRUD EDITOR
+    // ==================
+
+    function activateCrudEditor() {
         if (!isEditable) {
             setIsNoteActive(!isNoteActive)
 
@@ -45,23 +50,44 @@ export default function Note({ myItem }) {
         }
     }
 
-    function editNote() {
+    // CRUD FEATURES IMPLEMENTATION
+    // ============================
+
+    function editNote(saveMsg) {
         setEditable(!isEditable)
-        if (isEditable) saveEditedNote(myItem)
+        if (isEditable) saveEditedNote(myItem, saveMsg)
+        // Not working (tried - on clicking edit, div is focused so you don't have to click)
+        // inputDiv.current.focus()
     }
 
-    function saveEditedNote(myItem) {
-        var foundIndex = currentList.findIndex(x => x.id == myItem.id);
-        currentList[foundIndex].note = inputValue;
+    function saveEditedNote(myItem, saveMsg) {
+        var foundIndex = currentList.findIndex(x => x.id == myItem.id)
+        currentList[foundIndex].note = inputValue
+        saveMsg()
     }
 
     return (
         <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
-            <div style={styles.content_wrap} onClick={makeEditable}>
-                <div ref={inputDiv} onInput={e => setInputValue(e.currentTarget.textContent)} contentEditable={isEditable} className='chromenote-note_content' style={styles.note_content}>{content}</div >
-            </div>
-            {isNoteActive ? <Editor onClickEdit={editNote} content={content} /> : ''}
-        </div>
-    );
-}
 
+            {/* ================= Wrapper ================== */}
+
+            <div style={styles.content_wrap} onClick={activateCrudEditor}>
+                <div
+                    ref={inputDiv}
+                    onInput={e => setInputValue(e.currentTarget.textContent)}
+                    spellCheck={false}
+                    suppressContentEditableWarning={true}
+                    contentEditable={isEditable}
+                    className='chromenote-note_content'
+                    style={styles.note_content}
+                >
+                    {content}
+                </div>
+            </div>
+
+            {/* =================== Editor =================== */}
+
+            {isNoteActive ? <Editor handleEditClick={editNote} content={content} /> : ''}
+        </div>
+    )
+}

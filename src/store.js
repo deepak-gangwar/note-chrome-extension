@@ -18,5 +18,17 @@ export const Store = [
     {
         id: 5,
         note: "aniket is playboy"
+    },
+    {
+        id: 6,
+        note: "chrome extension is bitch"
+    },
+    {
+        id: 7,
+        note: "unimportant note"
+    },
+    {
+        id: 8,
+        note: "anoter shit note"
     }
 ]
