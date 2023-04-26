@@ -7,5 +7,7 @@ export default {
         borderBottomRightRadius: "10px",
         borderBottomLeftRadius: "10px",
         padding: "1rem 2.5rem 0.8rem",
+        position: "relative",
+        zIndex: "3",
     }
 }
