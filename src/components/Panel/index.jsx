@@ -13,7 +13,7 @@ export const TotalNotesContext = createContext(Store)
 export default function Panel() {
     const [listToRender, setListToRender] = useState(Store)
     const [currentList, setCurrentList] = useState(Store)
-
+    const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
 
     // ADD NEW NOTE
     // ============
@@ -54,12 +54,17 @@ export default function Panel() {
         setListToRender(filteredNotes)
     }
 
+    //IMP FUNCTION TO BLUR
+    //====================
+    function activateBlurScreen(showBlur) {
+        setIsBlurScreenActive(showBlur)
+    }
     return (
         <div className='panel' style={styles.panel}>
-            <TotalNotesContext.Provider value={{ currentList, updateCurrentList, addNewNote }}>
+            <TotalNotesContext.Provider value={{ currentList, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
                 <TitleBar title={":::"} />
                 <Navbar />
-                <Blur />
+                {isBlurScreenActive ? <Blur /> : ""}
                 <Search handleTyping={search} />
                 <ul className='chromenote-notes_list' style={styles.notes_list}>
                     {
@@ -67,7 +72,8 @@ export default function Panel() {
                             <li key={item.id} >
                                 <Note myItem={item} />
                             </li>
-                        ))}
+                        ))
+                    }
                 </ul>
                 <AddExportToolbar />
             </TotalNotesContext.Provider>
