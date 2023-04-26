@@ -33,7 +33,7 @@ export default function Export() {
     }
 
     return (
-        <div onmouse>
+        <div >
             <button  onClick = {handleExportButtonClick}  style={styles.export_btn}>
                 Export
             </button>
