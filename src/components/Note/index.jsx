@@ -45,20 +45,23 @@ export default function Note({ myItem }) {
         }
     }
 
-    function editNote() {
+    function editNote(saveMsg) {
         setEditable(!isEditable)
-        if (isEditable) saveEditedNote(myItem)
+        if (isEditable) saveEditedNote(myItem, saveMsg)
+        // Not working (tried - on clicking edit, div is focused so you don't have to click)
+        // inputDiv.current.focus()
     }
 
-    function saveEditedNote(myItem) {
-        var foundIndex = currentList.findIndex(x => x.id == myItem.id);
-        currentList[foundIndex].note = inputValue;
+    function saveEditedNote(myItem, saveMsg) {
+        var foundIndex = currentList.findIndex(x => x.id == myItem.id)
+        currentList[foundIndex].note = inputValue
+        saveMsg()
     }
 
     return (
         <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
             <div style={styles.content_wrap} onClick={makeEditable}>
-                <div ref={inputDiv} onInput={e => setInputValue(e.currentTarget.textContent)} contentEditable={isEditable} className='chromenote-note_content' style={styles.note_content}>{content}</div >
+                <div ref={inputDiv} onInput={e => setInputValue(e.currentTarget.textContent)} spellCheck={false} suppressContentEditableWarning={true} contentEditable={isEditable} className='chromenote-note_content' style={styles.note_content}>{content}</div >
             </div>
             {isNoteActive ? <Editor onClickEdit={editNote} content={content} /> : ''}
         </div>

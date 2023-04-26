@@ -35,6 +35,9 @@ export default {
         // marginBlockEnd: "1em",
         marginBlockStart: "0",
         marginBlockEnd: "0",
-        padding: "0 1rem"
+        padding: "0 1rem",
+        whiteSpace: "pre-wrap",
+        display: "block",
+        outline: "none",
     }
 }

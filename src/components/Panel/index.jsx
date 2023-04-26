@@ -5,7 +5,6 @@ import { useState, createContext } from 'react'
 import { Store } from '../../store'
 import TitleBar from '../TitleBar'
 
-
 export const TotalNotesContext = createContext(Store);
 
 export default function Panel() {
@@ -42,7 +41,6 @@ export default function Panel() {
         <div className='panel' style={styles.panel}>
             <TitleBar title={"App"} />
             <Search onTyping={search} />
-
             <ul className='chromenote-notes_list' style={styles.notes_list}>
                 {
                     listToRender.map((item) => (
