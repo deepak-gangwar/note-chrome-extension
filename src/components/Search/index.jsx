@@ -1,9 +1,9 @@
 import styles from './styles'
 
-export default function Search({ onTyping }) {
+export default function Search({ handleTyping }) {
     function handleChange(query) {
-        window.localStorage.setItem("query", query)
-        onTyping()
+        window.localStorage.setItem("chromenote-query", query)
+        handleTyping()
     }
 
     return (

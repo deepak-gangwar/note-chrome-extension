@@ -4,7 +4,7 @@ import { useState, useContext } from 'react'
 import { TotalNotesContext } from '../../Panel'
 
 
-export default function Editor({ content, onClickEdit }) {
+export default function Editor({ content, handleEditClick }) {
     const { currentList, updateCurrentList } = useContext(TotalNotesContext)
 
     // Used in hover styles to modify opacity
@@ -20,8 +20,8 @@ export default function Editor({ content, onClickEdit }) {
     const msg = useRef(null)
 
 
-    // EDITING FEATURES
-    // ================
+    // CRUD FEATURES IMPLEMENTATION
+    // ============================
 
     // Copy to clipboard ----------------------------------------------------
 
@@ -43,9 +43,9 @@ export default function Editor({ content, onClickEdit }) {
     // Edit -----------------------------------------------------------------
 
     const editNote = () => {
-        onClickEdit(saveMsg)
+        if (!isEditing) editMsg()
+        handleEditClick(saveMsg)
         setIsEditing(!isEditing)
-        editMsg()
     }
 
 

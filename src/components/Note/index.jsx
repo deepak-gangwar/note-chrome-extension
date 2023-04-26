@@ -1,7 +1,7 @@
 import styles from './styles'
 import Editor from './Editor'
 import { useState, useContext, useRef } from 'react'
-import { TotalNotesContext } from '../Panel';
+import { TotalNotesContext } from '../Panel'
 
 
 export default function Note({ myItem }) {
@@ -15,7 +15,9 @@ export default function Note({ myItem }) {
 
     const { currentList } = useContext(TotalNotesContext);
 
-    // FOR HOVER STYLES
+    // HOVER STYLES
+    // ============
+
     function handleNoteMouseEnter() {
         makeNoteColorLight()
     }
@@ -32,7 +34,10 @@ export default function Note({ myItem }) {
         if (!isNoteActive) setComponentStyles({ ...styles.note_wrap })
     }
 
-    function makeEditable() {
+    // TOGGLE CRUD EDITOR
+    // ==================
+
+    function activateCrudEditor() {
         if (!isEditable) {
             setIsNoteActive(!isNoteActive)
 
@@ -44,6 +49,9 @@ export default function Note({ myItem }) {
             }
         }
     }
+
+    // CRUD FEATURES IMPLEMENTATION
+    // ============================
 
     function editNote(saveMsg) {
         setEditable(!isEditable)
@@ -60,11 +68,26 @@ export default function Note({ myItem }) {
 
     return (
         <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
-            <div style={styles.content_wrap} onClick={makeEditable}>
-                <div ref={inputDiv} onInput={e => setInputValue(e.currentTarget.textContent)} spellCheck={false} suppressContentEditableWarning={true} contentEditable={isEditable} className='chromenote-note_content' style={styles.note_content}>{content}</div >
-            </div>
-            {isNoteActive ? <Editor onClickEdit={editNote} content={content} /> : ''}
-        </div>
-    );
-}
 
+            {/* ================= Wrapper ================== */}
+
+            <div style={styles.content_wrap} onClick={activateCrudEditor}>
+                <div
+                    ref={inputDiv}
+                    onInput={e => setInputValue(e.currentTarget.textContent)}
+                    spellCheck={false}
+                    suppressContentEditableWarning={true}
+                    contentEditable={isEditable}
+                    className='chromenote-note_content'
+                    style={styles.note_content}
+                >
+                    {content}
+                </div>
+            </div>
+
+            {/* =================== Editor =================== */}
+
+            {isNoteActive ? <Editor handleEditClick={editNote} content={content} /> : ''}
+        </div>
+    )
+}

@@ -1,19 +1,19 @@
 import styles from './styles'
-import Search from '../Search'
-import Note from '../Note'
 import { useState, createContext } from 'react'
 import { Store } from '../../store'
 import TitleBar from '../TitleBar'
+import Search from '../Search'
+import Note from '../Note'
 
-export const TotalNotesContext = createContext(Store);
+export const TotalNotesContext = createContext(Store)
 
 export default function Panel() {
     const [listToRender, setListToRender] = useState(Store)
     const [currentList, setCurrentList] = useState(Store)
 
 
-    // NOTE DELETION LOGIC
-    // ===================
+    // DELETE NOTE
+    // ===========
 
     function updateCurrentList(content) {
         let noteToBeRemoved = undefined
@@ -29,10 +29,10 @@ export default function Panel() {
 
 
     // FILTER NOTES
-    // ===========
+    // ============
 
     const search = (str) => {
-        const query = str ? str : localStorage.getItem("query")
+        const query = str ? str : localStorage.getItem("chromenote-query")
         const filteredNotes = currentList.filter(element => element.note.includes(query))
         setListToRender(filteredNotes)
     }
@@ -40,7 +40,7 @@ export default function Panel() {
     return (
         <div className='panel' style={styles.panel}>
             <TitleBar title={"App"} />
-            <Search onTyping={search} />
+            <Search handleTyping={search} />
             <ul className='chromenote-notes_list' style={styles.notes_list}>
                 {
                     listToRender.map((item) => (
@@ -50,7 +50,6 @@ export default function Panel() {
                             </TotalNotesContext.Provider>
                         </li>
                     ))}
-
             </ul>
         </div>
     )
