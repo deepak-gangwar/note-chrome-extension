@@ -4,8 +4,8 @@ This is a chrome extension for taking notes while reading on the web.
 
 ## WIP Features ✌
 
-- [ ] Ability to edit notes
-- [ ] Click to expand or collapse a note
+- [x] Ability to edit notes
+- [x] Click to expand or collapse a note
 - [ ] Multiple export formats
 - [ ] Multiple view (List, Grid etc.)
 - [ ] Backup and restore to cloud
