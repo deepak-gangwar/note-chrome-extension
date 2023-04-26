@@ -6,7 +6,7 @@ export default function Export() {
     const [isActive, setIsActive] = useState(false)
 
     return (
-        <div>
+        <div style={styles.export_wrap}>
             <button onClick={() => setIsActive(!isActive)} style={styles.export_btn}>
                 <span>
                     <svg style={styles.export_svg} width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
