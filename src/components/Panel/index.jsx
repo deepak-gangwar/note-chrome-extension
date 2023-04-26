@@ -5,12 +5,27 @@ import TitleBar from '../TitleBar'
 import Navbar from '../Navbar'
 import Search from '../Search'
 import Note from '../Note'
+import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
 export default function Panel() {
     const [listToRender, setListToRender] = useState(Store)
     const [currentList, setCurrentList] = useState(Store)
+
+
+    // ADD NEW NOTE
+    // ============
+
+    function addNewNote(newNote) {
+        const listOfNotes = currentList
+        listOfNotes.push(newNote)
+        setCurrentList(listOfNotes)
+        setListToRender(listOfNotes)
+
+        // !! To trigger re-render (does not serve any other purpose.) !!
+        search("")
+    }
 
 
     // DELETE NOTE
@@ -40,19 +55,20 @@ export default function Panel() {
 
     return (
         <div className='panel' style={styles.panel}>
-            <TitleBar title={":::"} />
-            <Navbar />
-            <Search handleTyping={search} />
-            <ul className='chromenote-notes_list' style={styles.notes_list}>
-                {
-                    listToRender.map((item) => (
-                        <li key={item.id} >
-                            <TotalNotesContext.Provider value={{ currentList, updateCurrentList }}>
+            <TotalNotesContext.Provider value={{ currentList, updateCurrentList, addNewNote }}>
+                <TitleBar title={":::"} />
+                <Navbar />
+                <Search handleTyping={search} />
+                <ul className='chromenote-notes_list' style={styles.notes_list}>
+                    {
+                        listToRender.map((item) => (
+                            <li key={item.id} >
                                 <Note myItem={item} />
-                            </TotalNotesContext.Provider>
-                        </li>
-                    ))}
-            </ul>
+                            </li>
+                        ))}
+                </ul>
+                <AddExportToolbar />
+            </TotalNotesContext.Provider>
         </div>
     )
 }
