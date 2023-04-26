@@ -5,6 +5,7 @@ import TitleBar from '../TitleBar'
 import Navbar from '../Navbar'
 import Search from '../Search'
 import Note from '../Note'
+import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
@@ -53,6 +54,7 @@ export default function Panel() {
                         </li>
                     ))}
             </ul>
+            <AddExportToolbar />
         </div>
     )
 }
