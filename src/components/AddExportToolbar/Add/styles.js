@@ -2,7 +2,8 @@ export default {
     btn_wrap: {
         boxShadow: "0 4px 14px rgba(1, 1, 1, 0.05)",
         width: "100%",
-        height: "100%",
+        // height: "100%",
+        height: "calc(70px - 1.9rem)",
     },
 
     add_btn: {
