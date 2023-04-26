@@ -36,6 +36,11 @@ export default {
         transform: 'translateY(4px) scale(0.82)',
     },
 
+    controls_svg_cancel: {
+        transition: "opacity 0.25s cubic-bezier(.84, .4, .07, .7)",
+        transform: 'translateY(10px)',
+    },
+
     controls_svg_tick: {
         transition: "opacity 0.25s cubic-bezier(.84, .4, .07, .7)",
         transform: 'translate(-1px, 0px) scale(1.1)',

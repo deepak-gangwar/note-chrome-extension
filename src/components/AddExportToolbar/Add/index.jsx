@@ -1,12 +1,32 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import styles from './styles'
 import QuickNote from './QuickNote'
+import { TotalNotesContext } from '../../Panel'
 
 export default function Add() {
     const [isQuickNoteEnabled, setIsQuickNoteEnabled] = useState(false)
 
+    const { currentList, addNewNote } = useContext(TotalNotesContext)
+
     function handleClick() {
         setIsQuickNoteEnabled(true)
+    }
+
+    function handleDisable() {
+        setIsQuickNoteEnabled(false)
+    }
+
+    function handleSave(str) {
+        const numItems = currentList.length
+        const newId = currentList[numItems - 1].id + 1
+        const newNote = {
+            id: newId,
+            note: str
+        }
+        // const listOfNotes = currentList
+        // listOfNotes.push(newNote)
+        // console.log(listOfNotes)
+        addNewNote(newNote)
     }
 
     return (
@@ -29,7 +49,7 @@ export default function Add() {
 
             {/* ========== QUICK NOTE MODAL ========== */}
 
-            {isQuickNoteEnabled ? <QuickNote /> : ''}
+            {isQuickNoteEnabled ? <QuickNote saveHandler={handleSave} disableHandler={handleDisable} /> : ''}
         </main>
     )
 }

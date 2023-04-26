@@ -1,17 +1,23 @@
 import styles from './styles'
 import { useState } from 'react'
 
-export default function Controls() {
+export default function Controls({ onSave, onDelete }) {
 
     // Used in hover styles to modify opacity
     const [saveIconOpacity, setSaveIconOpacity] = useState(0.6)
     const [deleteIconOpacity, setDeleteIconOpacity] = useState(0.6)
 
 
-
     // FEATURES IMPLEMENTATION
     // ============================
 
+    function saveQuickNote() {
+        onSave()
+    }
+
+    function deleteQuickNote() {
+        onDelete()
+    }
 
 
     // HANDLE HOVER STYLES FOR EDITOR ICONS
@@ -43,7 +49,7 @@ export default function Controls() {
 
             {/* ================= Controls ================== */}
             <div className='chromenote-controls' style={styles.controls}>
-                <span style={styles.controls_btn} onMouseEnter={handleSaveMouseEnter} onMouseLeave={handleSaveMouseLeave}>
+                <span onClick={saveQuickNote} style={styles.controls_btn} onMouseEnter={handleSaveMouseEnter} onMouseLeave={handleSaveMouseLeave}>
                     <svg style={styles.controls_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" >
                         <g opacity={saveIconOpacity} style={styles.controls_svg_save}>
                             <path d="M26.666 35V29C26.666 27.1144 26.666 26.1716 26.0802 25.5858C25.4944 25 24.5516 25 22.666 25H15.666C13.7804 25 12.8376 25 12.2518 25.5858C11.666 26.1716 11.666 27.1144 11.666 29V35" stroke="#33363F" strokeWidth="3" />
@@ -53,15 +59,14 @@ export default function Controls() {
                     </svg>
                 </span>
 
-                <span style={styles.controls_btn} onMouseEnter={handleDeleteMouseEnter} onMouseLeave={handleDeleteMouseLeave}>
-                    <svg style={styles.controls_icon} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity={deleteIconOpacity} style={styles.controls_svg}>
-                            <path d="M16.666 25L16.666 20" stroke="#33363F" strokeWidth="3" strokeLinecap="round" />
-                            <path d="M23.334 25L23.334 20" stroke="#33363F" strokeWidth="3" strokeLinecap="round" />
-                            <path d="M5 11.6665H35H34C32.1144 11.6665 31.1716 11.6665 30.5858 12.2523C30 12.8381 30 13.7809 30 15.6665V29.3332C30 31.2188 30 32.1616 29.4142 32.7474C28.8284 33.3332 27.8856 33.3332 26 33.3332H14C12.1144 33.3332 11.1716 33.3332 10.5858 32.7474C10 32.1616 10 31.2188 10 29.3332V15.6665C10 13.7809 10 12.8381 9.41421 12.2523C8.82843 11.6665 7.88562 11.6665 6 11.6665H5Z" stroke="#33363F" strokeWidth="3" strokeLinecap="round" />
-                            <path d="M16.7809 5.61765C16.9708 5.44046 17.3893 5.28388 17.9714 5.17221C18.5536 5.06053 19.2669 5 20.0006 5C20.7344 5 21.4477 5.06053 22.0299 5.17221C22.612 5.28388 23.0305 5.44046 23.2204 5.61765" stroke="#33363F" strokeWidth="3" strokeLinecap="round" />
+                <span onClick={deleteQuickNote} style={styles.controls_btn} onMouseEnter={handleDeleteMouseEnter} onMouseLeave={handleDeleteMouseLeave}>
+                    <svg style={styles.controls_svg_cancel} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g opacity={deleteIconOpacity}>
+                            <path opacity="0.8" d="M15 5L5 15" stroke="#33363F" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                            <path opacity="0.8" d="M5 5L15 15" stroke="#33363F" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                         </g>
                     </svg>
+
                 </span>
             </div>
         </div>
