@@ -2,21 +2,30 @@ import { useContext, useEffect, useState } from 'react'
 import styles from './styles'
 import QuickNote from './QuickNote'
 import { TotalNotesContext } from '../../Panel'
+import { ToggleToolbar } from '..'
 
 export default function Add() {
     const [isQuickNoteEnabled, setIsQuickNoteEnabled] = useState(false)
 
     const { currentList, isBlurScreenActive, addNewNote, activateBlurScreen } = useContext(TotalNotesContext)
+    const {showAddOrExportOnly, updateAddOrExport} = useContext(ToggleToolbar)
 
     function handleClick() {
         setIsQuickNoteEnabled(true)
         activateBlurScreen(true)
+        updateAddOrExport("Add")
     }
+
     useEffect(() => {
         if(isQuickNoteEnabled) setIsQuickNoteEnabled(isBlurScreenActive)
     },[isBlurScreenActive])
 
-    
+    useEffect(() => {
+        if(showAddOrExportOnly === "Export"){
+            setIsQuickNoteEnabled(false)
+        }
+    },[showAddOrExportOnly])
+
     function handleDisable() {
         setIsQuickNoteEnabled(false)
         activateBlurScreen(false)

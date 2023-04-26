@@ -2,20 +2,29 @@ import styles from './styles'
 import { useState, useContext, useEffect } from 'react'
 import ExportMenu from './ExportMenu'
 import { TotalNotesContext } from '../../Panel'
+import { ToggleToolbar } from '..'
 
 export default function Export() {
     const [isActive, setIsActive] = useState(false)
     const {isBlurScreenActive, activateBlurScreen } = useContext(TotalNotesContext)
+    const {showAddOrExportOnly, updateAddOrExport} = useContext(ToggleToolbar)
 
     useEffect(() => {
         if(isActive) setIsActive(isBlurScreenActive)
     },[isBlurScreenActive])
 
+    useEffect(() => {
+        if(showAddOrExportOnly === "Add"){
+            setIsActive(false)
+        }
+    },[showAddOrExportOnly])
+
+
     function expandExportOptions() {
         activateBlurScreen(!isActive)
         setIsActive(!isActive)
+        updateAddOrExport("Export")
     }
-
     return (
         <div >
             <button onClick={ expandExportOptions } style={styles.export_btn}>
