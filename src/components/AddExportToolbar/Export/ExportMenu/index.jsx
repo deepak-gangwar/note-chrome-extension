@@ -81,18 +81,27 @@ export default function Export() {
     }
 
     return (
-        <div style={styles.export_btn_expand}>
-            <button onClick={handleExportToClipboard} style={styles.export_btn}>
-                Copy to Clipboard
-            </button>
-            <a href="https://doc.new" target='_blank' rel='noreferrer'>
-                <button onClick={handleExportToGoogleDoc} style={styles.export_btn}>
+        <ul style={styles.export_menu}>
+            <li style={styles.menu_item}>
+                <div onClick={handleExportToClipboard}>
+                    Copy to Clipboard
+                </div>
+            </li>
+            <li style={styles.menu_item}>
+                <a style={styles.menu_item_a} onClick={handleExportToGoogleDoc} href="https://doc.new" target='_blank' rel='noreferrer'>
                     Open Google Doc to Save
-                </button>
-            </a>
-            <button onClick={handleExportToTXT} style={styles.export_btn}>
-                Export as TXT
-            </button>
-        </div>
+                </a>
+            </li>
+            <li style={styles.menu_item}>
+                <div onClick={handleExportToTXT}>
+                    Export as TXT
+                </div>
+            </li>
+            <div style={styles.pin}>
+                <svg style={styles.pin_svg} width="29" height="25" viewBox="0 0 29 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.164 22.8558C16.0451 25.0163 12.9549 25.0163 11.836 22.8558L5.40489e-07 -6.27912e-07L29 1.90735e-06L17.164 22.8558Z" fill="#232323" />
+                </svg>
+            </div>
+        </ul>
     )
 }

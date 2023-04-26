@@ -1,4 +1,11 @@
 export default {
+    export_wrap: {
+        width: "fit-content",
+        position: "relative",
+        bottom: "90%",
+        left: "70%",
+    },
+
     export_btn: {
         display: "flex",
         fontWeight: "bolder",
@@ -6,11 +13,12 @@ export default {
         color: "rgb(217, 217, 217)",
         textTransform: "uppercase",
         alignItems: "center",
-        gap: "5px",
+        gap: "7px",
+        transform: "scale(0.8)",
     },
 
     export_svg: {
-        transform: "scale(0.6)",
+        transform: "scale(0.7)",
         marginLeft: "-3px",
     },
 }
