@@ -4,6 +4,7 @@ import { Store } from '../../store'
 import TitleBar from '../TitleBar'
 import Navbar from '../Navbar'
 import Search from '../Search'
+import Blur from '../Blur'
 import Note from '../Note'
 import AddExportToolbar from '../AddExportToolbar'
 
@@ -58,6 +59,7 @@ export default function Panel() {
             <TotalNotesContext.Provider value={{ currentList, updateCurrentList, addNewNote }}>
                 <TitleBar title={":::"} />
                 <Navbar />
+                <Blur />
                 <Search handleTyping={search} />
                 <ul className='chromenote-notes_list' style={styles.notes_list}>
                     {
