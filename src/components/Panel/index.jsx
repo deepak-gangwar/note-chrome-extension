@@ -5,6 +5,7 @@ import TitleBar from '../TitleBar'
 import Navbar from '../Navbar'
 import Search from '../Search'
 import Note from '../Note'
+import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
@@ -40,6 +41,8 @@ export default function Panel() {
 
     return (
         <div className='panel' style={styles.panel}>
+        <TotalNotesContext.Provider value={{ currentList, updateCurrentList }}>
+
             <TitleBar title={":::"} />
             <Navbar />
             <Search handleTyping={search} />
@@ -47,12 +50,12 @@ export default function Panel() {
                 {
                     listToRender.map((item) => (
                         <li key={item.id} >
-                            <TotalNotesContext.Provider value={{ currentList, updateCurrentList }}>
                                 <Note myItem={item} />
-                            </TotalNotesContext.Provider>
                         </li>
                     ))}
             </ul>
+                <AddExportToolbar />
+            </TotalNotesContext.Provider>
         </div>
     )
 }
