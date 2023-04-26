@@ -23,9 +23,6 @@ export default function Add() {
             id: newId,
             note: str
         }
-        // const listOfNotes = currentList
-        // listOfNotes.push(newNote)
-        // console.log(listOfNotes)
         addNewNote(newNote)
     }
 

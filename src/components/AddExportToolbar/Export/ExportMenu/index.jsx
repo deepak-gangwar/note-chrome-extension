@@ -2,17 +2,23 @@ import styles from './styles'
 import { useContext } from 'react'
 import { TotalNotesContext } from '../../../Panel'
 
-export default function Export({blurHandler, preventBlurHandler}) {
+export default function Export() {
+    const { currentList } = useContext(TotalNotesContext)
 
-    const { currentList } = useContext(TotalNotesContext);
+    // CONVERT ALL NOTES TO A SINGLE STRING
+    // ====================================
 
-    //NOTE // function convertAllNotesAsSingleString
-    //==============================================
-    let allNotes = "NOTE :- "
-    currentList.forEach(item => {
-        allNotes = allNotes + '\n\n' + item.note
-    })
+    function getAllNotes() {
+        let allNotes = "NOTES :- "
+        currentList.forEach(item => {
+            allNotes = allNotes + '\n\n' + item.note
+        })
+        return allNotes
+    }
 
+
+    // COPY TO CLIPBOARD UTILITY
+    // =========================
 
     function copyToClipboardAsync(str) {
         if (navigator && navigator.clipboard && navigator.clipboard.writeText)
@@ -20,26 +26,16 @@ export default function Export({blurHandler, preventBlurHandler}) {
         return Promise.reject('The Clipboard API is not available.')
     }
 
-
     const copyNote = () => {
-        copyToClipboardAsync(allNotes)
-        // copyMsg()
-        // setIsCopied(true)
-        // setTimeout(() => {
-        //     setIsCopied(false)
-        // }, 1500)
+        copyToClipboardAsync(getAllNotes())
     }
 
-
-
     function handleExportToClipboard() {
-        console.log(allNotes)
-        copyNote();
+        copyNote()
     }
 
     function handleExportToGoogleDoc() {
-        copyNote();
-
+        copyNote()
     }
 
 
@@ -72,29 +68,29 @@ export default function Export({blurHandler, preventBlurHandler}) {
 
     function downloadTxtFile(text) {
         const element = document.createElement("a");
-        const file = new Blob([text], {type: 'txt/plain'});
+        const file = new Blob([text], { type: 'txt/plain' });
         element.href = URL.createObjectURL(file);
         element.download = "myNotes.txt";
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
-      }
+    }
 
     function handleExportToTXT() {
-        // downloadAsPDF(allNotes)
-        downloadTxtFile(allNotes)
+        // downloadAsPDF(getAllNotes())
+        downloadTxtFile(getAllNotes())
     }
 
     return (
         <div style={styles.export_btn_expand}>
-            <button onClick = {handleExportToClipboard} style={styles.export_btn}>
+            <button onClick={handleExportToClipboard} style={styles.export_btn}>
                 Copy to Clipboard
             </button>
-            <a href="https://doc.new" target='_blank'>
-                <button onClick = {handleExportToGoogleDoc} style={styles.export_btn}>
+            <a href="https://doc.new" target='_blank' rel='noreferrer'>
+                <button onClick={handleExportToGoogleDoc} style={styles.export_btn}>
                     Open Google Doc to Save
                 </button>
             </a>
-            <button onClick = {handleExportToTXT} style={styles.export_btn}>
+            <button onClick={handleExportToTXT} style={styles.export_btn}>
                 Export as TXT
             </button>
         </div>
