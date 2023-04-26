@@ -16,7 +16,7 @@ export default function Panel() {
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
 
     // Used for dragging the panel
-    const panelRef = useRef(null)
+    const titleBarRef = useRef()
     const [isDragging, setIsDragging] = useState(false)
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [componentStyles, setComponentStyles] = useState(styles.panel)
@@ -26,7 +26,7 @@ export default function Panel() {
     // =====================================
 
     useEffect(() => {
-        const panel = panelRef.current
+        const titleBar = titleBarRef.current
 
         const handleMouseDown = (event) => {
             if (event.button === 0) { // check if left mouse button is pressed
@@ -41,10 +41,9 @@ export default function Panel() {
         const handleMouseMove = (event) => {
             if (isDragging) {
                 const newPosition = {
-                    // x: position.x + event.deltaX,
-                    // y: position.y + event.deltaY,
-                    x: position.x + event.movementX,
-                    y: position.y + event.movementY,
+                    // Change the multiplied factor to vary the speed and amount
+                    x: position.x + event.movementX * 3,
+                    y: position.y + event.movementY * 3,
                 };
                 setPosition(newPosition);
                 setComponentStyles({ ...styles.panel, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` })
@@ -55,16 +54,17 @@ export default function Panel() {
             handleMouseUp()
         }
 
-        panel.addEventListener('mousedown', handleMouseDown)
-        panel.addEventListener('mouseup', handleMouseUp)
-        panel.addEventListener('mousemove', handleMouseMove)
-        panel.addEventListener('mouseleave', haltMovement)
+        // We are listening to mouse events rather than drag events
+        titleBar.addEventListener('mousedown', handleMouseDown)
+        titleBar.addEventListener('mouseup', handleMouseUp)
+        titleBar.addEventListener('mousemove', handleMouseMove)
+        titleBar.addEventListener('mouseleave', haltMovement)
 
         // Clean up the event listeners when the component unmounts
         return () => {
-            panel.removeEventListener('mousedown', handleMouseDown)
-            panel.removeEventListener('mouseup', handleMouseUp)
-            panel.removeEventListener('mousemove', handleMouseMove)
+            titleBar.removeEventListener('mousedown', handleMouseDown)
+            titleBar.removeEventListener('mouseup', handleMouseUp)
+            titleBar.removeEventListener('mousemove', handleMouseMove)
         }
     }, [isDragging, position])
 
@@ -115,9 +115,9 @@ export default function Panel() {
     }
 
     return (
-        <div className='panel' style={componentStyles} ref={panelRef}>
+        <div className='panel' style={componentStyles}>
             <TotalNotesContext.Provider value={{ currentList, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
-                <TitleBar title={":::"} />
+                <TitleBar title={":::"} ref={titleBarRef} />
                 <Navbar />
                 {isBlurScreenActive ? <Blur /> : ""}
                 <Search handleTyping={search} />
