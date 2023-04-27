@@ -16,9 +16,10 @@ export default function Panel() {
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
 
     // Used for dragging the panel
+    const panelRef = useRef()
     const titleBarRef = useRef()
     const [isDragging, setIsDragging] = useState(false)
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({ x: 0, y: 0 })
     const [componentStyles, setComponentStyles] = useState(styles.panel)
 
 
@@ -30,25 +31,29 @@ export default function Panel() {
 
         const handleMouseDown = (event) => {
             if (event.button === 0) { // check if left mouse button is pressed
-                setIsDragging(true);
+                setIsDragging(true)
             }
         };
 
         const handleMouseUp = () => {
-            setIsDragging(false);
-        };
+            setIsDragging(false)
+        }
 
         const handleMouseMove = (event) => {
             if (isDragging) {
+                // const bounds = panelRef.current.getBoundingClientRect()
                 const newPosition = {
                     // Change the multiplied factor to vary the speed and amount
-                    x: position.x + event.movementX * 3,
-                    y: position.y + event.movementY * 3,
+                    x: position.x + event.movementX * 1,
+                    y: position.y + event.movementY * 1,
                 };
-                setPosition(newPosition);
+
+                // Check if the panel is within the bounds of the window
+                setPosition(newPosition)
+
                 setComponentStyles({ ...styles.panel, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` })
             }
-        };
+        }
 
         const haltMovement = () => {
             handleMouseUp()
@@ -115,7 +120,7 @@ export default function Panel() {
     }
 
     return (
-        <div className='panel' style={componentStyles}>
+        <div className='panel' style={componentStyles} ref={panelRef}>
             <TotalNotesContext.Provider value={{ currentList, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
                 <TitleBar title={":::"} ref={titleBarRef} />
                 <Navbar />

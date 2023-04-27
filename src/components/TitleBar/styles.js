@@ -28,7 +28,7 @@ export default {
     title: {
         WebkitUserSelect: 'none',
         userSelect: 'none',
-        cursor: 'default',
+        cursor: 'move',
         fontFamily:
             '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
         fontSize: '13px',
