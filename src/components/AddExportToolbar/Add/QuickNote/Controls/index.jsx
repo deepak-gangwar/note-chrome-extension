@@ -1,24 +1,28 @@
 import styles from './styles'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Controls({ onSave, onDelete }) {
+export default function Controls({ hintPrompt, onSave, onDelete }) {
 
     // Used in hover styles to modify opacity
     const [saveIconOpacity, setSaveIconOpacity] = useState(0.6)
     const [deleteIconOpacity, setDeleteIconOpacity] = useState(0.6)
-
+    const [promptMsg, setPromptMsg] = useState(hintPrompt)
 
     // FEATURES IMPLEMENTATION
     // ============================
 
     function saveQuickNote() {
         onSave()
+        setPromptMsg(hintPrompt)
     }
 
     function deleteQuickNote() {
         onDelete()
     }
 
+    useEffect(() => {
+        setPromptMsg(hintPrompt)
+    },[hintPrompt])
 
     // HANDLE HOVER STYLES FOR EDITOR ICONS
     // ====================================
@@ -42,9 +46,8 @@ export default function Controls({ onSave, onDelete }) {
 
     return (
         <div className='chromenote-noteEditor' style={styles.noteEditor}>
-            {/*  =========== Bottom left message ===========  */}
             <div className='chromenote-controls_left'>
-                <span style={styles.collapse}>...</span>
+                <span style={styles.collapse}>{promptMsg}</span>
             </div>
 
             {/* ================= Controls ================== */}
