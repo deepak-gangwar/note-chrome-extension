@@ -1,5 +1,6 @@
 import styles from './styles'
 import { useEffect, useState } from 'react'
+import Popper from './Popper'
 
 export default function Tooltip() {
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
@@ -32,6 +33,7 @@ export default function Tooltip() {
     // }, [])
 
     const selectedText = useSelection();
+    const [topOffset, setTopOffset] = useState('0')
     const [posY, setPosY] = useState('0')
     const [posX, setPosX] = useState('0')
 
@@ -40,7 +42,8 @@ export default function Tooltip() {
             // Find out how much (if any) user has scrolled
             var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-            setPosY(event.clientY + scrollTop - 60)
+            // setPosY(event.clientY + scrollTop - 60)
+            setPosY(topOffset + scrollTop - 60)
             setPosX(event.clientX)
         }
 
@@ -48,7 +51,7 @@ export default function Tooltip() {
         return () => {
             window.removeEventListener('mouseup', (event) => launchTooltip(event))
         }
-    }, [selectedText])
+    }, [selectedText, topOffset])
 
     // whenever selection changes calculate new top & left offsets
     // useEffect(() => {
@@ -84,6 +87,11 @@ export default function Tooltip() {
             }
         }
 
+        function handleYPosition(e) {
+            setTopOffset(e.clientY)
+        }
+
+        window.addEventListener('mousedown', (e) => handleYPosition(e))
         window.addEventListener('mouseup', handleVisiblity)
         return () => {
             window.removeEventListener('mouseup', handleVisiblity)
@@ -98,14 +106,16 @@ export default function Tooltip() {
 
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <div style={styles.links_container}>
-                        <span>Highlight</span>
-                    </div>
+                    <Popper />
                 </div>
             ) : ''}
         </>
     )
 }
+
+// <div style={styles.links_container}>
+//     <span>Highlight</span>
+// </div>
 
 
 // DEFINING OUR OWN CUSTOM HOOK TO GET SELECTED TEXT
