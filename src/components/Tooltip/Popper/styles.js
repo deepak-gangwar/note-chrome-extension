@@ -51,7 +51,7 @@ export default {
     first_item: {
         // display: "inline-block",
         display: "flex",
-        padding: "0px 12px 0px 10px",
+        // padding: "0px 12px 0px 10px",
     },
 
     separator: {
@@ -64,18 +64,23 @@ export default {
 
     last_item: {
         display: "inline-block",
+        // padding: "0px 16px",
+    },
+
+    twitter_share: {
         padding: "0px 16px",
     },
 
     highlighter_wrapper: {
         display: "inline-block",
-        paddingRight: "6px",
+        // paddingRight: "6px",
     },
 
     highlighter: {
         color: "inherit",
         textDecoration: "none",
         WebkitTapHighlightColor: "transparent",
+        padding: "0px 12px 0px 10px",
         fill: "inherit",
         fontSize: "inherit",
         border: "inherit",
@@ -83,8 +88,12 @@ export default {
         letterSpacing: "inherit",
         fontWeight: "inherit",
         margin: "0",
-        padding: "0",
+        // padding: "0",
         cursor: "pointer",
+    },
+
+    icon_add: {
+        transform: "translateY(1px) scale(0.95)",
     },
 
     nothing: {
@@ -102,7 +111,8 @@ export default {
         /* dynamic styles */
         position: "absolute",
         left: "0px",
-        transform: "translate(51px, -1px)",
+        // transform: "translate(51px, -1px)",
+        transform: "translate(41px, -1px)",
     },
 
     tail_segment: {

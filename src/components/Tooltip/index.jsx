@@ -113,10 +113,6 @@ export default function Tooltip() {
     )
 }
 
-// <div style={styles.links_container}>
-//     <span>Highlight</span>
-// </div>
-
 
 // DEFINING OUR OWN CUSTOM HOOK TO GET SELECTED TEXT
 // =================================================
