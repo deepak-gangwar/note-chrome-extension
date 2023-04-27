@@ -14,9 +14,17 @@ export default function QuickNote({ saveHandler, disableHandler }) {
         disableHandler()
     }
 
+    function handleKeyPress(event) {
+        if (event.key === "Escape") {
+            disableHandler()
+        }else if(event.ctrlKey && event.key === "Enter") {
+            handleSave();
+        }
+    }
+
     return (
         <div style={styles.quicknote_wrap}>
-            <textarea onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
+            <textarea onKeyDown = {handleKeyPress} onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
             <Controls onSave={handleSave} onDelete={handleDelete} />
         </div>
     )
