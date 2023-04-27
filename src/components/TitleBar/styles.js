@@ -3,7 +3,8 @@ export default {
         WebkitUserSelect: 'none',
         userSelect: 'none',
         WebkitAppRegion: 'drag',
-        cursor: 'default',
+        // cursor: 'default',
+        cursor: 'move',
         width: '100%',
         boxSizing: 'border-box',
         display: 'flex',
@@ -27,7 +28,7 @@ export default {
     title: {
         WebkitUserSelect: 'none',
         userSelect: 'none',
-        cursor: 'default',
+        cursor: 'move',
         fontFamily:
             '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
         fontSize: '13px',

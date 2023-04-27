@@ -8,6 +8,7 @@ export default {
         top: "20px",
         right: "20px",
         boxShadow: "3px 3px 14px rgba(1, 1, 1, 0.2)",
+        transition: "opacity .25s cubic-bezier(.84, .4, .07, .7)",
         zIndex: "10000"
     },
 
