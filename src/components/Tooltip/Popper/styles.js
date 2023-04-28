@@ -17,7 +17,7 @@ export default {
         /* dynamic styles to apply using javascript	 */
         // position: "absolute",
         inset: "auto auto 0px 0px",
-        /*     transform: translate(305px, 1424px); */
+        // transform: "translate(305px, 1424px)",
         // transform: "translate(10px, 53px)",
         transform: "translate(-40px, -5px)",
     },
@@ -48,10 +48,10 @@ export default {
         padding: "8px 0px",
     },
 
-    first_item: {
+    list_item: {
         // display: "inline-block",
-        display: "flex",
         // padding: "0px 12px 0px 10px",
+        display: "flex",
     },
 
     separator: {
@@ -81,6 +81,7 @@ export default {
         textDecoration: "none",
         WebkitTapHighlightColor: "transparent",
         padding: "0px 12px 0px 10px",
+        // padding: "0",
         fill: "inherit",
         fontSize: "inherit",
         border: "inherit",
@@ -88,7 +89,6 @@ export default {
         letterSpacing: "inherit",
         fontWeight: "inherit",
         margin: "0",
-        // padding: "0",
         cursor: "pointer",
     },
 
@@ -103,12 +103,10 @@ export default {
 
     tail: {
         // position: "absolute",
+        // left: "50%",
         pointerEvents: "none",
         bottom: "-14px",
-        // left: "50%",
         clip: "rect(0px, 18px, 18px, -4px)",
-
-        /* dynamic styles */
         position: "absolute",
         left: "0px",
         // transform: "translate(51px, -1px)",
