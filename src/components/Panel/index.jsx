@@ -1,5 +1,5 @@
 import styles from './styles'
-import { useState, useEffect, useRef, createContext } from 'react'
+import { useState, useEffect, useRef, createContext, forwardRef, useImperativeHandle } from 'react'
 import { Store } from '../../store'
 import TitleBar from '../TitleBar'
 import Navbar from '../Navbar'
@@ -10,7 +10,8 @@ import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
-export default function Panel() {
+// export default function Panel({ selectedNote }) {
+const Panel = forwardRef(function Panel(props, ref) {
     const [listToRender, setListToRender] = useState(Store)
     const [currentList, setCurrentList] = useState(Store)
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
@@ -21,6 +22,20 @@ export default function Panel() {
     const [isDragging, setIsDragging] = useState(false)
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [componentStyles, setComponentStyles] = useState(styles.panel)
+
+
+    // ADD SELECTION AS NOTE, COMING FROM TOOLTIP -> APP -> PANEL
+    useImperativeHandle(ref, () => ({
+        addSelectionFromTooltip(val) {
+            const numItems = currentList.length
+            const newId = currentList[numItems - 1].id + 1
+            const newNote = {
+                id: newId,
+                note: val
+            }
+            addNewNote(newNote)
+        },
+    }))
 
 
     // FEATURE: DRAG PANEL ACROSS THE SCREEN
@@ -139,4 +154,6 @@ export default function Panel() {
             </TotalNotesContext.Provider>
         </div>
     )
-}
+})
+
+export default Panel

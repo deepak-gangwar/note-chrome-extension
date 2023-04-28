@@ -1,18 +1,19 @@
 import styles from './styles'
 
-export default function Popper({ clickHandler }) {
+export default function Popper({ addNote }) {
 
     function highlightWithColor() {
         console.log('highlight with color')
     }
 
     function addSelectionAsNote() {
+        addNote()
         console.log('add new note')
     }
 
     return (
         <div className="parent_wrapper" style={styles.parent_wrapper}>
-            <div onClick={clickHandler} className="popper" style={styles.popper}>
+            <div className="popper" style={styles.popper}>
                 <div className="tooltip_container" style={styles.tooltip_container}>
                     <div className="tooltip" style={styles.tooltip}>
                         <div>

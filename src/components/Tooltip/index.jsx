@@ -2,7 +2,7 @@ import styles from './styles'
 import { useEffect, useState } from 'react'
 import Popper from './Popper'
 
-export default function Tooltip() {
+export default function Tooltip({ sendNoteToApp }) {
     const selectedText = useSelection();
     const [currentStr, setCurrentStr] = useState('')
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
@@ -58,22 +58,25 @@ export default function Tooltip() {
 
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================
+    function handleVisiblity() {
 
-    function handleVisiblity(isTooltipClicked) {
         if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
             setCurrentStr(selectedText.text)
             selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
         } else {
-            if (!isTooltipClicked) setIsTooltipVisible(false)
             // setIsTooltipVisible(false)
         }
     }
 
-    useEffect(() => {
 
-        function handleYPosition(e) {
-            setTopOffset(e.clientY)
-        }
+    // POSITIONING OF TOOLTIP
+    // ======================
+
+    function handleYPosition(e) {
+        setTopOffset(e.clientY)
+    }
+
+    useEffect(() => {
 
         window.addEventListener('mousedown', (e) => handleYPosition(e))
         window.addEventListener('mouseup', handleVisiblity)
@@ -83,12 +86,20 @@ export default function Tooltip() {
         }
     }, [selectedText, currentStr])
 
+
+    // ADD SELECTION TO NOTES STORE
+    // ===========================
+
+    function addNoteToStore() {
+        sendNoteToApp(currentStr)
+    }
+
     return (
         <>
             {/* ================ Tooltip ================ */}
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <Popper clickHandler={handleVisiblity} />
+                    <Popper addNote={addNoteToStore} />
                 </div>
             ) : ''}
         </>
