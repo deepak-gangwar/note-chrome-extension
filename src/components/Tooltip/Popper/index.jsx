@@ -1,6 +1,8 @@
 import styles from './styles'
 
 export default function Popper({ addNote }) {
+    const shareTitlte = "abc"
+    const pageUrl = "https://deepakgangwar.com"
 
     function highlightWithColor() {
         console.log('highlight with color')
@@ -61,7 +63,7 @@ export default function Popper({ addNote }) {
                                 <div className="last_item" style={styles.last_item}>
                                     <div>
                                         <span>
-                                            <a href="" className='twitter_share' style={styles.twitter_share}>
+                                            <a href={`https://twitter.com/intent/tweet?url=${pageUrl}&text=${shareTitlte}`} className='twitter_share' style={styles.twitter_share} target='_bland' rel="noopener" aria-label="Share on Twitter">
                                                 <svg width="25" height="25" viewBox="0 0 25 25">
                                                     <path fill='white' d="M22.3 4.3c-.82.51-1.72.88-2.67 1.08a4.25 4.25 0 0 0-6.18-.12 4.3 4.3 0 0 0-1.26 3.03c0 .34.04.67.08 1a12.2 12.2 0 0 1-8.81-4.52 4.8 4.8 0 0 0-.62 2.14 4.44 4.44 0 0 0 1.92 3.6 4.13 4.13 0 0 1-1.91-.55v.07c0 2.06 1.47 3.8 3.44 4.21-.37.08-.74.13-1.15.15l-.76-.07a4.32 4.32 0 0 0 3.98 2.99A9.03 9.03 0 0 1 3 19.14l-1-.06A12.26 12.26 0 0 0 8.6 21c7.88 0 12.2-6.55 12.17-12.18.02-.23.02-.41 0-.62a8.06 8.06 0 0 0 2.15-2.23c-.77.37-1.6.6-2.45.7a4.1 4.1 0 0 0 1.84-2.38"></path>
                                                 </svg>
