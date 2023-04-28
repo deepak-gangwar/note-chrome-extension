@@ -4,6 +4,7 @@ import Popper from './Popper'
 
 export default function Tooltip() {
     const selectedText = useSelection();
+    const [currentStr, setCurrentStr] = useState('')
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
     const [topOffset, setTopOffset] = useState('0')
     const [posY, setPosY] = useState('0')
@@ -61,7 +62,8 @@ export default function Tooltip() {
     useEffect(() => {
         function handleVisiblity() {
             if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
-                setIsTooltipVisible(true)
+                setCurrentStr(selectedText.text)
+                selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
             } else {
                 setIsTooltipVisible(false)
             }
@@ -76,7 +78,7 @@ export default function Tooltip() {
         return () => {
             window.removeEventListener('mouseup', handleVisiblity)
         }
-    }, [selectedText])
+    }, [selectedText, currentStr])
 
     return (
         <>
