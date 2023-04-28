@@ -59,15 +59,17 @@ export default function Tooltip() {
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================
 
-    useEffect(() => {
-        function handleVisiblity() {
-            if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
-                setCurrentStr(selectedText.text)
-                selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
-            } else {
-                setIsTooltipVisible(false)
-            }
+    function handleVisiblity(isTooltipClicked) {
+        if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
+            setCurrentStr(selectedText.text)
+            selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
+        } else {
+            if (!isTooltipClicked) setIsTooltipVisible(false)
+            // setIsTooltipVisible(false)
         }
+    }
+
+    useEffect(() => {
 
         function handleYPosition(e) {
             setTopOffset(e.clientY)
@@ -77,6 +79,7 @@ export default function Tooltip() {
         window.addEventListener('mouseup', handleVisiblity)
         return () => {
             window.removeEventListener('mouseup', handleVisiblity)
+            window.removeEventListener('mousedown', (e) => handleYPosition(e))
         }
     }, [selectedText, currentStr])
 
@@ -85,7 +88,7 @@ export default function Tooltip() {
             {/* ================ Tooltip ================ */}
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <Popper />
+                    <Popper clickHandler={handleVisiblity} />
                 </div>
             ) : ''}
         </>

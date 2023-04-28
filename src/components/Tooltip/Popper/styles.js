@@ -45,7 +45,8 @@ export default {
         display: "flex",
         fill: "rgba(255, 255, 255, 1)",
         whiteSpace: "nowrap",
-        padding: "8px 0px",
+        // padding: "8px 0px",
+        padding: "8px 0px 4px",
     },
 
     list_item: {
