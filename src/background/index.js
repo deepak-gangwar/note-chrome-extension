@@ -1,3 +1,4 @@
+/*global chrome*/
 console.log('Coming from background.js It runs when the browser is launched and is related to browser funcitonality and not specific page. For specific pages, see content-script.js')
 
 // INJECTING PROGRAMATICALLY
@@ -12,4 +13,16 @@ chrome.action.onClicked.addListener((tab) => {
         target: { tabId: tab.id },
         files: ["content-script.js"]
     })
+})
+
+// Called when the user clicks on the browser action (extension icon)
+chrome.action.onClicked.addListener(() => {
+    // Send a message to the active tab
+    chrome.tabs.query({ active: true, currentWindow: true },
+        (tabs) => {
+            var activeTab = tabs[0]
+            chrome.tabs.sendMessage(activeTab.id,
+                { "message": "clicked_browser_action" }
+            )
+        })
 })
