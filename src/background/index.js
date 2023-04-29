@@ -7,16 +7,20 @@ console.log('Coming from background.js It runs when the browser is launched and 
 // Host permissions can either be granted by requesting them as part of your extension's manifest (see host_permissions) or temporarily via activeTab.
 // host_permission not working for me so i added activeTabs
 
-// Adding content-script when the extension icon is clicked.
+
+// 👇 CALLED WHEN THE USER CLICKS ON THE BROWSER ACTION (THE EXTENSION ICON)
+// =========================================================================
+
 chrome.action.onClicked.addListener((tab) => {
+    // Adding content-script to tab.
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ["content-script.js"]
     })
-})
 
-// Called when the user clicks on the browser action (extension icon)
-chrome.action.onClicked.addListener(() => {
+    // FOR TOGGLE FEATURE
+    // ==================
+
     // Send a message to the active tab
     chrome.tabs.query({ active: true, currentWindow: true },
         (tabs) => {
