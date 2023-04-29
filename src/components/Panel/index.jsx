@@ -11,9 +11,18 @@ import AddExportToolbar from '../AddExportToolbar'
 export const TotalNotesContext = createContext(Store)
 
 export default function Panel() {
-    const [listToRender, setListToRender] = useState(Store)
-    const [currentList, setCurrentList] = useState(Store)
+    // Saving All Notes as a Local Storage
+    window.localStorage.setItem("chromenote-Store", JSON.stringify(Store))
+    let chromenoteStore = window.localStorage.getItem("chromenote-Store")
+    const StoredNotes = JSON.parse(chromenoteStore)
+
+    const [listToRender, setListToRender] = useState(StoredNotes)
+    const [currentList, setCurrentList] = useState(StoredNotes)
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
+
+    // get info for opened note in panel
+    const [currentOpenedNote, setCurrentOpenedNote] = useState(0)
+
 
     // Used for dragging the panel
     const panelRef = useRef()
@@ -119,6 +128,9 @@ export default function Panel() {
         setIsBlurScreenActive(showBlur)
     }
 
+    function openNoteHandler () {
+        console.log("note clicked")
+    }
     return (
         <div className='panel' style={componentStyles} ref={panelRef}>
             <TotalNotesContext.Provider value={{ currentList, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
@@ -129,8 +141,8 @@ export default function Panel() {
                 <ul className='chromenote-notes_list' style={styles.notes_list}>
                     {
                         listToRender.map((item) => (
-                            <li key={item.id} >
-                                <Note myItem={item} />
+                            <li onClick = {(e) => (console.log(e))} key={item.id} >
+                                <Note myItem={item} openNoteHandler={openNoteHandler} />
                             </li>
                         ))
                     }

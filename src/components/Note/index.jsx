@@ -4,7 +4,7 @@ import { useState, useContext, useRef } from 'react'
 import { TotalNotesContext } from '../Panel'
 
 
-export default function Note({ myItem }) {
+export default function Note({ myItem, openNoteHandler }) {
     const content = myItem.note
     const inputDiv = useRef(null)
 
@@ -37,7 +37,7 @@ export default function Note({ myItem }) {
     // TOGGLE CRUD EDITOR
     // ==================
 
-    function activateCrudEditor() {
+    function activateCrudEditor(e) {
         if (!isEditable) {
             setIsNoteActive(!isNoteActive)
 
@@ -47,7 +47,10 @@ export default function Note({ myItem }) {
             } else {
                 setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
             }
+            openNoteHandler()
+            // console.log(e.target)
         }
+
     }
 
     // CRUD FEATURES IMPLEMENTATION
@@ -71,7 +74,7 @@ export default function Note({ myItem }) {
 
             {/* ================= Wrapper ================== */}
 
-            <div style={styles.content_wrap} onClick={activateCrudEditor}>
+            <div style={styles.content_wrap} onClick={(e) => activateCrudEditor(e)}>
                 <div
                     ref={inputDiv}
                     onInput={e => setInputValue(e.currentTarget.textContent)}

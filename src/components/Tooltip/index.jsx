@@ -17,8 +17,12 @@ export default function Tooltip() {
         }
     }, []);
 
+    // work only when clicking on add to note
+    function addToNote() {
+
+    }
 
     return (
-        <button style={styles.tooltip}>Add note</button>
+        <button onClick = {addToNote} style={styles.tooltip}>Add note</button>
     )
 }

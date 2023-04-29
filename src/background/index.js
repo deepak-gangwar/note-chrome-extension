@@ -7,9 +7,37 @@ console.log('Coming from background.js It runs when the browser is launched and 
 // host_permission not working for me so i added activeTabs
 
 // Adding content-script when the extension icon is clicked.
-chrome.action.onClicked.addListener((tab) => {
+let isScriptInjected = false;
+
+
+function injectScript(tab) {
+    console.log("injected")
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ["content-script.js"]
     })
+    isScriptInjected = true;
+}
+
+function removeScript(tab) {
+  chrome.scripting.executeScript({
+    target: {tabId: tab.id},
+    function: () => {
+        const script = document.querySelector('script[src="content-script.js"]');
+        script && script.remove();
+    }
+    });
+    console.log("removed")
+    isScriptInjected = false
+}
+
+
+chrome.action.onClicked.addListener((tab) => {
+    console.log("chrome extension clicked")
+    if(isScriptInjected){
+        removeScript(tab) 
+    }else{
+        injectScript(tab)
+    }
+
 })
