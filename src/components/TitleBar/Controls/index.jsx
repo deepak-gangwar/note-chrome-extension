@@ -23,6 +23,8 @@ export default function Controls() {
 
     function handleClose() {
         console.log('Close window')
+        document.getElementById('note-chrome-extension-app').remove()
+        setIsOver(false)
     }
 
     function handleMinimize() {

@@ -6,7 +6,7 @@ import App from '../App.jsx'
 import '../styles/index.css'
 
 // console.log("Content script loaded!")
-// console.clear();
+console.clear();
 
 const app = document.createElement('div')
 app.setAttribute('id', 'note-chrome-extension-app')
@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(
 
 function toggle() {
     // To hide errors thrown by reactDOM as Ic is already declared
-    // console.clear();
+    console.clear();
 
     if (document.getElementById('note-chrome-extension-app')) {
         document.getElementById('note-chrome-extension-app').remove()
