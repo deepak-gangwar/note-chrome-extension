@@ -10,11 +10,34 @@ import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
-// export default function Panel({ selectedNote }) {
+if(window.localStorage.getItem("chromenote-Store") === null) {
+    window.localStorage.setItem("chromenote-Store", JSON.stringify(Store))
+}
+let currentOpenedNote = 0;
+
 const Panel = forwardRef(function Panel(props, ref) {
-    const [listToRender, setListToRender] = useState(Store)
-    const [currentList, setCurrentList] = useState(Store)
+
+
+    // Saving All Notes as a Local Storage
+    let chromenoteStore = window.localStorage.getItem("chromenote-Store")
+    let StoredNotes = JSON.parse(chromenoteStore)
+
+    // List to Render on Panel
+    const [listToRender, setListToRender] = useState(StoredNotes)
+
+    // Current List of Notes to show on Panel
+    const [currentList, setCurrentList] = useState(StoredNotes)
+
+    // To toggle blur screen if note is clicked or else.
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
+
+    // get info for opened note in panel
+    // let [currentOpenedNote, setCurrentOpenedNote] = useState(0)
+
+    // to turn off other notes
+    const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(currentList.length).fill(false))
+    // now the state whichNoteIsActive is equal to an array with nine elements and sets them to null
+
 
     // Used for dragging the panel
     const panelRef = useRef()
@@ -93,11 +116,14 @@ const Panel = forwardRef(function Panel(props, ref) {
     // ============
 
     function addNewNote(newNote) {
-        const listOfNotes = currentList
+        console.log(newNote)
+        const listOfNotes = StoredNotes
         listOfNotes.push(newNote)
         setCurrentList(listOfNotes)
         setListToRender(listOfNotes)
 
+        // adding added note in local storage
+        window.localStorage.setItem("chromenote-Store", JSON.stringify(listOfNotes))
         // !! To trigger re-render (does not serve any other purpose.) !!
         search("")
     }
@@ -116,6 +142,10 @@ const Panel = forwardRef(function Panel(props, ref) {
         const notesAfterRemoving = currentList.filter(element => element !== noteToBeRemoved)
         setCurrentList(notesAfterRemoving)
         setListToRender(notesAfterRemoving)
+
+        // adding added note in local storage
+        window.localStorage.setItem("chromenote-Store", JSON.stringify(notesAfterRemoving))
+
     }
 
 
@@ -123,6 +153,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     // ============
 
     const search = (str) => {
+        console.log(currentOpenedNote)
         const query = str ? str : localStorage.getItem("chromenote-query")
         const filteredNotes = currentList.filter(element => element.note.includes(query))
         setListToRender(filteredNotes)
@@ -130,9 +161,23 @@ const Panel = forwardRef(function Panel(props, ref) {
 
     //IMP FUNCTION TO BLUR
     //====================
+
     function activateBlurScreen(showBlur) {
         setIsBlurScreenActive(showBlur)
     }
+
+
+    // MANAGES STATE IN PARENT OF WHICH NOTES ARE ACTIVE
+    // =================================================
+
+    function openNoteHandler(i) {
+        const nextSquares = whichNoteIsActive.slice()
+        const tmp = nextSquares[i]
+        nextSquares.fill(false)
+        nextSquares[i] = !tmp
+        setWhichNoteIsActive(nextSquares)
+    }
+
 
     return (
         <div className='panel' style={componentStyles} ref={panelRef}>
@@ -145,7 +190,7 @@ const Panel = forwardRef(function Panel(props, ref) {
                     {
                         listToRender.map((item) => (
                             <li key={item.id} >
-                                <Note myItem={item} />
+                                <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive[item.id]} />
                             </li>
                         ))
                     }

@@ -55,6 +55,10 @@ export default function Tooltip({ sendNoteToApp }) {
         }
     }, [selectedText, topOffset])
 
+    // work only when clicking on add to note
+    function addToNote() {
+
+    }
 
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================

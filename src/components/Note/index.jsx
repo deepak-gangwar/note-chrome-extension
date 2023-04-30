@@ -1,16 +1,15 @@
 import styles from './styles'
 import Editor from './Editor'
-import { useState, useContext, useRef } from 'react'
+import { useState, useContext, useRef, useEffect } from 'react'
 import { TotalNotesContext } from '../Panel'
 
 
-export default function Note({ myItem }) {
+export default function Note({ myItem, activeValue, changeStatesInParent }) {
     const content = myItem.note
     const inputDiv = useRef(null)
 
     const [isEditable, setEditable] = useState(false)
     const [inputValue, setInputValue] = useState(content)
-    const [isNoteActive, setIsNoteActive] = useState(false)
     const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
 
     const { currentList } = useContext(TotalNotesContext);
@@ -27,27 +26,32 @@ export default function Note({ myItem }) {
     }
 
     function makeNoteColorLight() {
-        if (!isNoteActive) setComponentStyles({ ...styles.note_wrap, background: "#c7c1db", cursor: "pointer" })
+        if (!activeValue) setComponentStyles({ ...styles.note_wrap, background: "#c7c1db", cursor: "pointer" })
     }
 
     function makeNoteColorDark() {
-        if (!isNoteActive) setComponentStyles({ ...styles.note_wrap })
+        if (!activeValue) setComponentStyles({ ...styles.note_wrap })
     }
+
+    useEffect(() => {
+        makeNoteColorDark()
+        if(!isEditable){
+            // make active note light colored
+            if(activeValue) setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
+        } else {
+            if(!activeValue){
+                setEditable(false)
+                makeNoteColorDark()
+            }
+        }
+    }, [activeValue])
 
     // TOGGLE CRUD EDITOR
     // ==================
 
     function activateCrudEditor() {
-        if (!isEditable) {
-            setIsNoteActive(!isNoteActive)
-
-            // CHANGE COLOR OF ACTIVE NOTE
-            if (isNoteActive) {
-                setComponentStyles({ ...styles.note_wrap })
-            } else {
-                setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
-            }
-        }
+        // modify the parent state
+        if (!isEditable) changeStatesInParent(myItem.id)
     }
 
     // CRUD FEATURES IMPLEMENTATION
@@ -56,6 +60,7 @@ export default function Note({ myItem }) {
     function editNote(saveMsg) {
         setEditable(!isEditable)
         if (isEditable) saveEditedNote(myItem, saveMsg)
+        
         // Not working (tried - on clicking edit, div is focused so you don't have to click)
         // inputDiv.current.focus()
     }
@@ -71,7 +76,7 @@ export default function Note({ myItem }) {
 
             {/* ================= Wrapper ================== */}
 
-            <div style={styles.content_wrap} onClick={activateCrudEditor}>
+            <div id="note" className='textContentNote' style={styles.content_wrap} onClick={activateCrudEditor}>
                 <div
                     ref={inputDiv}
                     onInput={e => setInputValue(e.currentTarget.textContent)}
@@ -87,7 +92,7 @@ export default function Note({ myItem }) {
 
             {/* =================== Editor =================== */}
 
-            {isNoteActive ? <Editor handleEditClick={editNote} content={content} /> : ''}
+            {activeValue ? <Editor handleEditClick={editNote} content={content} /> : ''}
         </div>
     )
 }
