@@ -12,7 +12,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
     const [inputValue, setInputValue] = useState(content)
     const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
 
-    const { currentList } = useContext(TotalNotesContext);
+    const { StoredNotes } = useContext(TotalNotesContext);
 
     // HOVER STYLES
     // ============
@@ -35,17 +35,17 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
     useEffect(() => {
         makeNoteColorDark()
-        if(!isEditable){
+        if (!isEditable) {
             // make active note light colored
-            if(activeValue) setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
+            if (activeValue) setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
         } else {
-            if(!activeValue){
+            if (!activeValue) {
                 setEditable(false)
                 makeNoteColorDark()
             }
         }
     }, [activeValue])
-    
+
     // TOGGLE CRUD EDITOR
     // ==================
 
@@ -66,8 +66,9 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
     }
 
     function saveEditedNote(myItem, saveMsg) {
-        var foundIndex = currentList.findIndex(x => x.id == myItem.id)
-        currentList[foundIndex].note = inputValue
+        var foundIndex = StoredNotes.findIndex(x => x.id == myItem.id)
+        StoredNotes[foundIndex].note = inputValue
+        window.localStorage.setItem("chromenote-Store", JSON.stringify(StoredNotes))
         saveMsg()
     }
 
