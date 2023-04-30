@@ -61,6 +61,9 @@ export default function Tooltip({ sendNoteToApp }) {
     }, [selectedText, topOffset])
 
 
+    function closeTooltip(){
+        setIsTooltipVisible(false)
+    }
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================
     function handleTooltipVisiblity() {
@@ -111,7 +114,7 @@ export default function Tooltip({ sendNoteToApp }) {
             {/* ================ Tooltip ================ */}
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <Popper addNote={addNoteToStore} />
+                    <Popper addNote={addNoteToStore} closeTooltip={closeTooltip}/>
                 </div>
             ) : ''}
         </>
