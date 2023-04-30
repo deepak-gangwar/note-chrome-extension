@@ -1,5 +1,9 @@
 export default {
     toolbar_wrap: {
+        margin: "0",
+        border: "0",
+        font: "inherit",
+        verticalAlign: "baseline",
         fontSize: "0.7rem",
         background: "#F5F5F5",
         boxSizing: "border-box",

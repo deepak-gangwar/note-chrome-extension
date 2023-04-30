@@ -41,7 +41,7 @@ export default function Add() {
     }
 
     return (
-        <main>
+        <>
             {/* ============= BUTTON ============= */}
 
             <div style={styles.btn_wrap}>
@@ -61,6 +61,6 @@ export default function Add() {
             {/* ========== QUICK NOTE MODAL ========== */}
 
             {isQuickNoteEnabled ? <QuickNote saveHandler={handleSave} disableHandler={handleDisable} /> : ''}
-        </main>
+        </>
     )
 }

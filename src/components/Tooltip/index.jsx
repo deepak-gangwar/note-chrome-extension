@@ -6,6 +6,8 @@ export default function Tooltip({ sendNoteToApp }) {
     const selectedText = useSelection();
     const [currentStr, setCurrentStr] = useState('')
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+
+    // used for tooltip placement
     const [topOffset, setTopOffset] = useState('0')
     const [posY, setPosY] = useState('0')
     const [posX, setPosX] = useState('0')
@@ -63,7 +65,6 @@ export default function Tooltip({ sendNoteToApp }) {
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================
     function handleVisiblity() {
-
         if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
             setCurrentStr(selectedText.text)
             selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
@@ -79,6 +80,8 @@ export default function Tooltip({ sendNoteToApp }) {
     function handleYPosition(e) {
         setTopOffset(e.clientY)
     }
+
+    // 👇 THIS IS RUNNING DURING THE TIME WHEN SELECTION IS CHANGING
 
     useEffect(() => {
 
