@@ -3,7 +3,7 @@ export default {
         width: "fit-content",
         position: "relative",
         bottom: "90%",
-        left: "70%",
+        left: "72%",
     },
 
     export_btn: {

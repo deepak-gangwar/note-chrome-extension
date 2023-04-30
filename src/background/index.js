@@ -1,3 +1,4 @@
+/*global chrome*/
 console.log('Coming from background.js It runs when the browser is launched and is related to browser funcitonality and not specific page. For specific pages, see content-script.js')
 
 // INJECTING PROGRAMATICALLY
@@ -6,38 +7,26 @@ console.log('Coming from background.js It runs when the browser is launched and 
 // Host permissions can either be granted by requesting them as part of your extension's manifest (see host_permissions) or temporarily via activeTab.
 // host_permission not working for me so i added activeTabs
 
-// Adding content-script when the extension icon is clicked.
-let isScriptInjected = false;
 
+// 👇 CALLED WHEN THE USER CLICKS ON THE BROWSER ACTION (THE EXTENSION ICON)
+// =========================================================================
 
-function injectScript(tab) {
-    console.log("injected")
+chrome.action.onClicked.addListener((tab) => {
+    // Adding content-script to tab.
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ["content-script.js"]
     })
-    isScriptInjected = true;
-}
 
-function removeScript(tab) {
-  chrome.scripting.executeScript({
-    target: {tabId: tab.id},
-    function: () => {
-        const script = document.querySelector('script[src="content-script.js"]');
-        script && script.remove();
-    }
-    });
-    console.log("removed")
-    isScriptInjected = false
-}
+    // FOR TOGGLE FEATURE
+    // ==================
 
-
-chrome.action.onClicked.addListener((tab) => {
-    console.log("chrome extension clicked")
-    if(isScriptInjected){
-        removeScript(tab) 
-    }else{
-        injectScript(tab)
-    }
-
+    // Send a message to the active tab
+    chrome.tabs.query({ active: true, currentWindow: true },
+        (tabs) => {
+            var activeTab = tabs[0]
+            chrome.tabs.sendMessage(activeTab.id,
+                { "message": "clicked_browser_action" }
+            )
+        })
 })
