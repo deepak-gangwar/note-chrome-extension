@@ -7,9 +7,9 @@ export default function QuickNote({ saveHandler, disableHandler }) {
     const [promptMsg, setPromptMsg] = useState("...")
 
     function handleSave() {
-        if(inputText.length > 0){
-             saveHandler(inputText)
-             disableHandler()
+        if (inputText.length > 0) {
+            saveHandler(inputText)
+            disableHandler()
         } else setPromptMsg("Empty Note Can't be Saved")
 
     }
@@ -21,15 +21,15 @@ export default function QuickNote({ saveHandler, disableHandler }) {
     function handleKeyPress(event) {
         if (event.key === "Escape") {
             disableHandler()
-        }else if(event.ctrlKey && event.key === "Enter") {
+        } else if (event.ctrlKey && event.key === "Enter") {
             handleSave()
         }
     }
 
     return (
         <div style={styles.quicknote_wrap}>
-            <textarea onKeyDown = {handleKeyPress} onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
-            <Controls onSave={handleSave} onDelete={handleDelete} hintPrompt = {promptMsg} />
+            <textarea onKeyDown={handleKeyPress} onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
+            <Controls onSave={handleSave} onDelete={handleDelete} hintPrompt={promptMsg} />
         </div>
     )
 }
