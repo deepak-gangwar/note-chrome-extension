@@ -1,5 +1,6 @@
 export default {
     export_menu: {
+        marginBlock: "1em",
         background: "#232323",
         padding: "1.2rem 1.5rem",
         position: "absolute",
@@ -11,6 +12,7 @@ export default {
     },
 
     menu_item: {
+        cursor: "pointer",
         textDecoration: "none",
         color: "#f5f5f5",
         borderBottom: "1px solid #f5f5f540",

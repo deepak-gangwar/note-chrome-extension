@@ -36,7 +36,7 @@ function toggle() {
 
     // THIS IS TO STORE THE NOTE IN STORAGE
     // DO NOT REMOVE THIS
-    
+
     // chrome.storage.local.set({key: 5}, function() {
     //     console.log('Store is set to ' + 5);
     // // });

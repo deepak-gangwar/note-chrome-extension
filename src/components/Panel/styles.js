@@ -1,5 +1,9 @@
 export default {
     panel: {
+        fontFamily: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
+        lineHeight: "1.5",
+        fontWeight: "400",
+        textRendering: "optimizeLegibility",
         width: "410px",
         height: "550px",
         backgroundColor: "#f5f5f5",

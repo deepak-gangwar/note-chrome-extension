@@ -6,6 +6,7 @@ export default {
     },
 
     bar: {
+        background: "#fff",
         outline: "none",
         border: "0",
         display: "inline",

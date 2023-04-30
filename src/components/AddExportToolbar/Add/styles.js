@@ -7,6 +7,11 @@ export default {
     },
 
     add_btn: {
+        border: "0",
+        background: "#FFFFFF",
+        borderRadius: "10px",
+        cursor: "pointer",
+        paddingLeft: "1rem",
         fontWeight: "bolder",
         textTransform: "uppercase",
         width: "100%",

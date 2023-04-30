@@ -1,4 +1,4 @@
-import './styles/App.css'
+// import './styles/App.css'
 import Panel from './components/Panel'
 import Tooltip from './components/Tooltip'
 import { useRef } from 'react'

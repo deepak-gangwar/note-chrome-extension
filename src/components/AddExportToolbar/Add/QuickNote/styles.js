@@ -1,12 +1,13 @@
 export default {
     quicknote_wrap: {
         width: "-webkit-fill-available",
-        height: "150px",
+        // height: "150px",
         transform: "translateX(-5%)",
         borderRadius: "10px",
         background: "white",
         position: "absolute",
-        bottom: "120px",
+        top: "-300px",
+        // bottom: "120px",
         zIndex: "5",
     },
 
@@ -17,6 +18,9 @@ export default {
         padding: "10px",
         border: "1px solid lightgray",
         borderRadius: "8px",
+        resize: "vertical",
+        maxHeight: "150px",
+        minHeight: "50px",
         height: "70px",
     }
 }
