@@ -10,7 +10,7 @@ import AddExportToolbar from '../AddExportToolbar'
 
 export const TotalNotesContext = createContext(Store)
 
-if(window.localStorage.getItem("chromenote-Store") === null) {
+if (window.localStorage.getItem("chromenote-Store") === null) {
     window.localStorage.setItem("chromenote-Store", JSON.stringify(Store))
 }
 
@@ -25,7 +25,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     const [listToRender, setListToRender] = useState(StoredNotes)
 
     // Current List of Notes to show on Panel
-    const [currentList, setCurrentList] = useState(StoredNotes)
+    // const [currentList, setCurrentList] = useState(StoredNotes)
 
     // To toggle blur screen if note is clicked or else.
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
@@ -33,8 +33,15 @@ const Panel = forwardRef(function Panel(props, ref) {
     // get info for opened note in panel
 
     // to turn off other notes
-    const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(StoredNotes.length).fill(false))
+    // const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(StoredNotes.length).fill(false))
     // now the state whichNoteIsActive is equal to an array with nine elements and sets them to null
+
+    const map = new Map()
+    StoredNotes.forEach(item => {
+        map.set(item.id, false)
+    })
+
+    const [whichNoteIsActive, setWhichNoteIsActive] = useState(map)
 
 
     // Used for dragging the panel
@@ -48,8 +55,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     // ADD SELECTION AS NOTE, COMING FROM TOOLTIP -> APP -> PANEL
     useImperativeHandle(ref, () => ({
         addSelectionFromTooltip(val) {
-            const numItems = StoredNotes.length
-            const newId = StoredNotes[numItems - 1].id + 1
+            const newId = Math.random().toString(36).slice(2)
             const newNote = {
                 id: newId,
                 note: val
@@ -168,18 +174,23 @@ const Panel = forwardRef(function Panel(props, ref) {
     // MANAGES STATE IN PARENT OF WHICH NOTES ARE ACTIVE
     // =================================================
 
-    function openNoteHandler(i) {
-        const activeArrCopy = whichNoteIsActive.slice()
-        const tmp = activeArrCopy[i]
-        activeArrCopy.fill(false)
-        activeArrCopy[i] = !tmp
+    function openNoteHandler(id) {
+        const activeArrCopy = new Map(whichNoteIsActive)
+        const tmp = activeArrCopy.get(id)
+        // console.log("tmp: " +  tmp)
+        activeArrCopy.forEach((value, id) => {
+            // console.log(key + mapItem)
+            activeArrCopy.set(id, false)
+        })
+        console.log(activeArrCopy);
+        activeArrCopy.set(id, !tmp)
         setWhichNoteIsActive(activeArrCopy)
     }
 
 
     return (
-        <div className='panel' style={componentStyles} ref={panelRef}>
-            <TotalNotesContext.Provider value={{ currentList, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
+        <div className='chromenote-panel' style={componentStyles} ref={panelRef}>
+            <TotalNotesContext.Provider value={{ StoredNotes, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
                 <TitleBar title={":::"} ref={titleBarRef} />
                 <Navbar />
                 {isBlurScreenActive ? <Blur /> : ""}
@@ -188,7 +199,7 @@ const Panel = forwardRef(function Panel(props, ref) {
                     {
                         listToRender.map((item) => (
                             <li key={item.id} >
-                                <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive[item.id]} />
+                                <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
                             </li>
                         ))
                     }

@@ -7,6 +7,8 @@ export default function Tooltip({ sendNoteToApp }) {
     const [currentStr, setCurrentStr] = useState("")
     const [previousSelectedStr, setPreviousSelectedStr] = useState("")
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+
+    // used for tooltip placement
     const [topOffset, setTopOffset] = useState('0')
     const [posY, setPosY] = useState('0')
     const [posX, setPosX] = useState('0')
@@ -79,6 +81,8 @@ export default function Tooltip({ sendNoteToApp }) {
     function handleYPosition(e) {
         setTopOffset(e.clientY)
     }
+
+    // 👇 THIS IS RUNNING DURING THE TIME WHEN SELECTION IS CHANGING
 
     useEffect(() => {
 

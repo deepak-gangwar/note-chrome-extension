@@ -7,8 +7,8 @@ import { ToggleToolbar } from '..'
 export default function Add() {
     const [isQuickNoteEnabled, setIsQuickNoteEnabled] = useState(false)
 
-    const { currentList, isBlurScreenActive, addNewNote, activateBlurScreen } = useContext(TotalNotesContext)
-    const {showAddOrExportOnly, updateAddOrExport} = useContext(ToggleToolbar)
+    const { isBlurScreenActive, addNewNote, activateBlurScreen } = useContext(TotalNotesContext)
+    const { showAddOrExportOnly, updateAddOrExport } = useContext(ToggleToolbar)
 
     function handleClick() {
         setIsQuickNoteEnabled(true)
@@ -17,14 +17,14 @@ export default function Add() {
     }
 
     useEffect(() => {
-        if(isQuickNoteEnabled) setIsQuickNoteEnabled(isBlurScreenActive)
-    },[isBlurScreenActive])
+        if (isQuickNoteEnabled) setIsQuickNoteEnabled(isBlurScreenActive)
+    }, [isBlurScreenActive])
 
     useEffect(() => {
-        if(showAddOrExportOnly === "Export"){
+        if (showAddOrExportOnly === "Export") {
             setIsQuickNoteEnabled(false)
         }
-    },[showAddOrExportOnly])
+    }, [showAddOrExportOnly])
 
     function handleDisable() {
         setIsQuickNoteEnabled(false)
@@ -32,8 +32,7 @@ export default function Add() {
     }
 
     function handleSave(str) {
-        const numItems = currentList.length
-        const newId = currentList[numItems - 1].id + 1
+        const newId = Math.random().toString(36).slice(2)
         const newNote = {
             id: newId,
             note: str
@@ -42,10 +41,10 @@ export default function Add() {
     }
 
     return (
-        <main>
+        <>
             {/* ============= BUTTON ============= */}
 
-            <div  style={styles.btn_wrap}>
+            <div style={styles.btn_wrap}>
                 <button style={styles.add_btn} onClick={handleClick}>
                     <span style={styles.icon}>
                         <svg style={styles.icon_svg} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +61,6 @@ export default function Add() {
             {/* ========== QUICK NOTE MODAL ========== */}
 
             {isQuickNoteEnabled ? <QuickNote saveHandler={handleSave} disableHandler={handleDisable} /> : ''}
-        </main>
+        </>
     )
 }
