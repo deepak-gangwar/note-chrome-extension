@@ -189,7 +189,7 @@ const Panel = forwardRef(function Panel(props, ref) {
 
 
     return (
-        <div className='panel' style={componentStyles} ref={panelRef}>
+        <div className='chromenote-panel' style={componentStyles} ref={panelRef}>
             <TotalNotesContext.Provider value={{ StoredNotes, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
                 <TitleBar title={":::"} ref={titleBarRef} />
                 <Navbar />
