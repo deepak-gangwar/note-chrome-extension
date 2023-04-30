@@ -10,7 +10,6 @@ export default function Popper({ addNote }) {
 
     function addSelectionAsNote() {
         addNote()
-        console.log('add new note')
     }
 
     return (

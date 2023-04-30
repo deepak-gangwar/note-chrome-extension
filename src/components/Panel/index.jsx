@@ -169,10 +169,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     // =================================================
 
     function openNoteHandler(i) {
-        console.log(i)
-        console.log("which" + whichNoteIsActive.length)
         const activeArrCopy = whichNoteIsActive.slice()
-        console.log("activeArrCopy - " + activeArrCopy.length)
         const tmp = activeArrCopy[i]
         activeArrCopy.fill(false)
         activeArrCopy[i] = !tmp
