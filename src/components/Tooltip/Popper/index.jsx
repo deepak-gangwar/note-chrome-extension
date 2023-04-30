@@ -1,6 +1,6 @@
 import styles from './styles'
 
-export default function Popper({ addNote }) {
+export default function Popper({ addNote, is }) {
     const shareTitlte = "abc"
     const pageUrl = "https://deepakgangwar.com"
 
@@ -10,7 +10,6 @@ export default function Popper({ addNote }) {
 
     function addSelectionAsNote() {
         addNote()
-        console.log('add new note')
     }
 
     return (
