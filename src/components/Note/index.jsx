@@ -45,7 +45,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
             }
         }
     }, [activeValue])
-
+    
     // TOGGLE CRUD EDITOR
     // ==================
 
@@ -60,7 +60,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
     function editNote(saveMsg) {
         setEditable(!isEditable)
         if (isEditable) saveEditedNote(myItem, saveMsg)
-        
+
         // Not working (tried - on clicking edit, div is focused so you don't have to click)
         // inputDiv.current.focus()
     }

@@ -13,7 +13,6 @@ export const TotalNotesContext = createContext(Store)
 if(window.localStorage.getItem("chromenote-Store") === null) {
     window.localStorage.setItem("chromenote-Store", JSON.stringify(Store))
 }
-let currentOpenedNote = 0;
 
 const Panel = forwardRef(function Panel(props, ref) {
 
@@ -32,10 +31,9 @@ const Panel = forwardRef(function Panel(props, ref) {
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
 
     // get info for opened note in panel
-    // let [currentOpenedNote, setCurrentOpenedNote] = useState(0)
 
     // to turn off other notes
-    const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(currentList.length).fill(false))
+    const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(StoredNotes.length).fill(false))
     // now the state whichNoteIsActive is equal to an array with nine elements and sets them to null
 
 
@@ -50,8 +48,8 @@ const Panel = forwardRef(function Panel(props, ref) {
     // ADD SELECTION AS NOTE, COMING FROM TOOLTIP -> APP -> PANEL
     useImperativeHandle(ref, () => ({
         addSelectionFromTooltip(val) {
-            const numItems = currentList.length
-            const newId = currentList[numItems - 1].id + 1
+            const numItems = StoredNotes.length
+            const newId = StoredNotes[numItems - 1].id + 1
             const newNote = {
                 id: newId,
                 note: val
@@ -112,18 +110,19 @@ const Panel = forwardRef(function Panel(props, ref) {
     }, [isDragging, position])
 
 
+
     // ADD NEW NOTE
     // ============
 
     function addNewNote(newNote) {
-        console.log(newNote)
         const listOfNotes = StoredNotes
         listOfNotes.push(newNote)
-        setCurrentList(listOfNotes)
+        // setCurrentList(listOfNotes)
         setListToRender(listOfNotes)
 
         // adding added note in local storage
         window.localStorage.setItem("chromenote-Store", JSON.stringify(listOfNotes))
+
         // !! To trigger re-render (does not serve any other purpose.) !!
         search("")
     }
@@ -134,13 +133,13 @@ const Panel = forwardRef(function Panel(props, ref) {
 
     function updateCurrentList(content) {
         let noteToBeRemoved = undefined
-        currentList.forEach(item => {
+        StoredNotes.forEach(item => {
             if (item.note === content) {
                 noteToBeRemoved = item
             }
         })
-        const notesAfterRemoving = currentList.filter(element => element !== noteToBeRemoved)
-        setCurrentList(notesAfterRemoving)
+        const notesAfterRemoving = StoredNotes.filter(element => element !== noteToBeRemoved)
+        // setCurrentList(notesAfterRemoving)
         setListToRender(notesAfterRemoving)
 
         // adding added note in local storage
@@ -153,9 +152,8 @@ const Panel = forwardRef(function Panel(props, ref) {
     // ============
 
     const search = (str) => {
-        console.log(currentOpenedNote)
         const query = str ? str : localStorage.getItem("chromenote-query")
-        const filteredNotes = currentList.filter(element => element.note.includes(query))
+        const filteredNotes = StoredNotes.filter(element => element.note.includes(query))
         setListToRender(filteredNotes)
     }
 
@@ -171,11 +169,14 @@ const Panel = forwardRef(function Panel(props, ref) {
     // =================================================
 
     function openNoteHandler(i) {
-        const nextSquares = whichNoteIsActive.slice()
-        const tmp = nextSquares[i]
-        nextSquares.fill(false)
-        nextSquares[i] = !tmp
-        setWhichNoteIsActive(nextSquares)
+        console.log(i)
+        console.log("which" + whichNoteIsActive.length)
+        const activeArrCopy = whichNoteIsActive.slice()
+        console.log("activeArrCopy - " + activeArrCopy.length)
+        const tmp = activeArrCopy[i]
+        activeArrCopy.fill(false)
+        activeArrCopy[i] = !tmp
+        setWhichNoteIsActive(activeArrCopy)
     }
 
 
