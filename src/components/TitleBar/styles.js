@@ -23,6 +23,7 @@ export default {
         // paddingLeft: '3px',
         // paddingRight: '3px',
         textAlign: 'center',
+        minWidth: "260px"
     },
 
     title: {

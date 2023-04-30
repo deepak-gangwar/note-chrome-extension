@@ -13,8 +13,8 @@ export default function AddExportToolbar() {
         setShowAddOrExportOnly(showComponent)
     }
     return (
-        <div style={styles.toolbar_wrap}>
-            <ToggleToolbar.Provider value = {{showAddOrExportOnly, updateAddOrExport}}>
+        <div className='chromenote-bottom_toolbar' style={styles.toolbar_wrap}>
+            <ToggleToolbar.Provider value={{ showAddOrExportOnly, updateAddOrExport }}>
                 <Add />
                 <Export />
             </ToggleToolbar.Provider>

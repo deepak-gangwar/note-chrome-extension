@@ -2,7 +2,7 @@ import styles from './styles'
 
 export default function Navbar() {
     return (
-        <nav style={styles.navbar} >
+        <nav className='chromenote-navbar' style={styles.navbar} >
             {/* ============== LOGO ============== */}
             <div className="chromenote-logo" style={styles.logo_wrap}>
                 <svg style={styles.logo} width="59" height="26" viewBox="0 0 59 26" fill="none" xmlns="http://www.w3.org/2000/svg">
