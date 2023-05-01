@@ -11,6 +11,7 @@
     "clean": "rm -r dist && vite build"
   },
   "dependencies": {
+    "framer-motion": "^10.12.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -7,6 +7,8 @@ import Search from '../Search'
 import Blur from '../Blur'
 import Note from '../Note'
 import AddExportToolbar from '../AddExportToolbar'
+import { Reorder, useDragControls } from 'framer-motion'
+import { ReorderIcon } from './DragIcon/icon'
 
 export const TotalNotesContext = createContext(Store)
 
@@ -180,16 +182,15 @@ const Panel = forwardRef(function Panel(props, ref) {
     function openNoteHandler(id) {
         const activeArrCopy = new Map(whichNoteIsActive)
         const tmp = activeArrCopy.get(id)
-        // console.log("tmp: " +  tmp)
         activeArrCopy.forEach((value, id) => {
-            // set every state of string as false
             activeArrCopy.set(id, false)
         })
-        console.log(activeArrCopy);
         activeArrCopy.set(id, !tmp)
         setWhichNoteIsActive(activeArrCopy)
     }
 
+    // Ro use in reorder item with framer motion
+    const dragControls = useDragControls()
 
     return (
         <div className='chromenote-panel' style={componentStyles} ref={panelRef}>
@@ -198,7 +199,23 @@ const Panel = forwardRef(function Panel(props, ref) {
                 <Navbar />
                 {isBlurScreenActive ? <Blur /> : ""}
                 <Search handleTyping={search} />
-                <ul className='chromenote-notes_list' style={styles.notes_list}>
+
+                {/* ======================= Currently dragging with both controls and item ======================= */}
+
+                <Reorder.Group axis="y" values={listToRender} onReorder={setListToRender} className='chromenote-notes_list' style={styles.notes_list}>
+                    {listToRender.map((item) => (
+                        <Reorder.Item key={item.id} value={item} style={styles.notes_list_item} >
+                            {/* <Reorder.Item key={item.id} value={item} dragListener={false} dragControls={dragControls} > */}
+                            <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
+                            <ReorderIcon dragControls={dragControls} />
+                        </Reorder.Item>
+
+                    ))}
+                </Reorder.Group>
+
+                {/* ======================= Original list rendering without framer-motion ======================= */}
+
+                {/* <ul className='chromenote-notes_list' style={styles.notes_list}>
                     {
                         listToRender.map((item) => (
                             <li key={item.id} >
@@ -206,7 +223,7 @@ const Panel = forwardRef(function Panel(props, ref) {
                             </li>
                         ))
                     }
-                </ul>
+                </ul> */}
                 <AddExportToolbar />
             </TotalNotesContext.Provider>
         </div>
