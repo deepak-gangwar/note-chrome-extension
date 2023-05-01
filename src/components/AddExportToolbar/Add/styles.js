@@ -31,6 +31,7 @@ export default {
     },
 
     label: {
+        color: "#232323",
         opacity: "0.6",
     },
 }
