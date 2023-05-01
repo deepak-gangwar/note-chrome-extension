@@ -17,11 +17,19 @@ export default {
     },
 
     notes_list: {
+        WebkitUserSelect: 'none',
+        userSelect: 'none',
+        WebkitAppRegion: 'drag',
         listStyleType: "none",
         height: "340px",
         overflowY: "scroll",
         padding: 0,
         margin: 0,
+        paddingLeft: "17px",
         boxShadow: "inset 0 -20px 14px -20px rgba(1, 1, 1, 0.1)",
+    },
+
+    notes_list_item: {
+        position: "relative",
     }
 }
