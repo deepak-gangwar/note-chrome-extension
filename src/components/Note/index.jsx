@@ -10,9 +10,38 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
     const [isEditable, setEditable] = useState(false)
     const [inputValue, setInputValue] = useState(content)
+    const [truncatedContent, setTruncatedContent] = useState(content)
     const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
+    const [contentStyles, setContentStyles] = useState({ ...styles.note_content })
 
     const { StoredNotes } = useContext(TotalNotesContext);
+
+    // TRUNCATE NOTE LENGTH
+    // ====================
+
+    function truncateText() {
+        let str = content.substring(0, 120) + "..."
+        setTruncatedContent(str)
+    }
+
+    useEffect(() => {
+        if (!activeValue) {
+            // do it only for notes longer than three lines
+            if (myItem.note.length > 120) {
+                truncateText()
+                setContentStyles({
+                    ...styles.note_content,
+                    background: "-webkit-linear-gradient(#232323, transparent)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                })
+            }
+        } else {
+            setContentStyles({ ...styles.note_content })
+        }
+
+    }, [activeValue])
+
 
     // HOVER STYLES
     // ============
@@ -85,9 +114,9 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
                     suppressContentEditableWarning={true}
                     contentEditable={isEditable}
                     className='chromenote-note_content'
-                    style={styles.note_content}
+                    style={contentStyles}
                 >
-                    {content}
+                    {activeValue ? content : truncatedContent}
                 </div>
             </div>
 

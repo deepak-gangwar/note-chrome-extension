@@ -5,6 +5,6 @@ export default {
         left: "-12px",
         transform: "translateY(-50%) scale(0.3)",
         cursor: "grab",
-        opacity: "0.8",
+        opacity: "0.7",
     }
 }
