@@ -1,6 +1,17 @@
+import { useState } from 'react';
 import styles from './styles'
 
 export function ReorderIcon({ dragControls }) {
+    const [componentStyles, setComponentStyles] = useState({ ...styles.drag_icon })
+
+    function handleMouseDown() {
+        setComponentStyles({ ...styles.drag_icon, cursor: "grabbing" })
+    }
+
+    function handleMouseUp() {
+        setComponentStyles({ ...styles.drag_icon, cursor: "grab" })
+    }
+
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +19,9 @@ export function ReorderIcon({ dragControls }) {
             width="39"
             height="39"
             onPointerDown={(event) => dragControls.start(event)}
-            style={styles.drag_icon}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            style={componentStyles}
         >
             <path d="M 5 0 C 7.761 0 10 2.239 10 5 C 10 7.761 7.761 10 5 10 C 2.239 10 0 7.761 0 5 C 0 2.239 2.239 0 5 0 Z" fill="#CCC"></path>
             <path d="M 19 0 C 21.761 0 24 2.239 24 5 C 24 7.761 21.761 10 19 10 C 16.239 10 14 7.761 14 5 C 14 2.239 16.239 0 19 0 Z" fill="#CCC"></path>
