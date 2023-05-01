@@ -4,7 +4,8 @@ import Popper from './Popper'
 
 export default function Tooltip({ sendNoteToApp }) {
     const selectedText = useSelection();
-    const [currentStr, setCurrentStr] = useState('')
+    const [currentStr, setCurrentStr] = useState("")
+    const [previousSelectedStr, setPreviousSelectedStr] = useState("")
     const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
     // used for tooltip placement
@@ -12,6 +13,7 @@ export default function Tooltip({ sendNoteToApp }) {
     const [posY, setPosY] = useState('0')
     const [posX, setPosX] = useState('0')
 
+    const [isClickedOnPopper, setIsClickedOnPopper] = useState(false)
     // ALTERNATIVE WORKING SOLUTION FOR TEXT SELECTION
     // ===============================================
 
@@ -35,11 +37,12 @@ export default function Tooltip({ sendNoteToApp }) {
 
     //     window.addEventListener('mouseup', getSelectedText)
     //     return () => {
-    //         window.removeEventListener('mouseup', getSelectedText)
-    //     }
-    // }, [])
+        //         window.removeEventListener('mouseup', getSelectedText)
+        //     }
+        // }, [])
 
 
+        // work only when clicking on add to note
 
     useEffect(() => {
         function launchTooltip(event) {
@@ -57,22 +60,23 @@ export default function Tooltip({ sendNoteToApp }) {
         }
     }, [selectedText, topOffset])
 
-    // work only when clicking on add to note
-    function addToNote() {
 
+    function closeTooltip(){
+        setIsTooltipVisible(false)
     }
-
     // CONDITIONALLY RENDERING THE TOOLTIP
     // ===================================
-    function handleVisiblity() {
+    function handleTooltipVisiblity() {
+
         if (selectedText && selectedText.text && selectedText.text.length && selectedText.text.length > 1) {
             setCurrentStr(selectedText.text)
-            selectedText?.text === currentStr ? setIsTooltipVisible(false) : setIsTooltipVisible(true)
+            setPreviousSelectedStr(selectedText.text)
+            setIsTooltipVisible(true)
         } else {
+            // console.log("text is not selected")
             // setIsTooltipVisible(false)
         }
     }
-
 
     // POSITIONING OF TOOLTIP
     // ======================
@@ -86,27 +90,31 @@ export default function Tooltip({ sendNoteToApp }) {
     useEffect(() => {
 
         window.addEventListener('mousedown', (e) => handleYPosition(e))
-        window.addEventListener('mouseup', handleVisiblity)
+        window.addEventListener('mouseup', handleTooltipVisiblity)
         return () => {
-            window.removeEventListener('mouseup', handleVisiblity)
+            window.removeEventListener('mouseup', handleTooltipVisiblity)
             window.removeEventListener('mousedown', (e) => handleYPosition(e))
         }
-    }, [selectedText, currentStr])
-
+    }, [selectedText])
 
     // ADD SELECTION TO NOTES STORE
     // ===========================
 
     function addNoteToStore() {
-        sendNoteToApp(currentStr)
+        console.log("note added")
+        if(previousSelectedStr.length > 1) sendNoteToApp(previousSelectedStr)
+        setIsTooltipVisible(false)
+        setCurrentStr("")
+        setPreviousSelectedStr("")
     }
+
 
     return (
         <>
             {/* ================ Tooltip ================ */}
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <Popper addNote={addNoteToStore} />
+                    <Popper addNote={addNoteToStore} closeTooltip={closeTooltip}/>
                 </div>
             ) : ''}
         </>

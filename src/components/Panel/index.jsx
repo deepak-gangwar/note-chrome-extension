@@ -176,6 +176,9 @@ const Panel = forwardRef(function Panel(props, ref) {
     // MANAGES STATE IN PARENT OF WHICH NOTES ARE ACTIVE
     // =================================================
 
+
+    // optimization can be done here using a variable that will improve the speed of closing editor
+    // instead of settin every value as false we can set past value of openedEditor as false
     function openNoteHandler(id) {
         const activeArrCopy = new Map(whichNoteIsActive)
         const tmp = activeArrCopy.get(id)

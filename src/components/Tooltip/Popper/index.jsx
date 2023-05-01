@@ -1,16 +1,16 @@
 import styles from './styles'
 
-export default function Popper({ addNote }) {
+export default function Popper({ addNote, closeTooltip }) {
     const shareTitlte = "abc"
     const pageUrl = "https://deepakgangwar.com"
 
     function highlightWithColor() {
         console.log('highlight with color')
+        closeTooltip()
     }
 
     function addSelectionAsNote() {
         addNote()
-        console.log('add new note')
     }
 
     return (
