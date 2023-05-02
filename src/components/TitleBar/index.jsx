@@ -5,7 +5,7 @@ import { useThemeDetector } from '../../hooks/useThemeDetector'
 
 
 const TitleBar = forwardRef(function TitleBar({ title }, whatref) {
-    const isDarkTheme = useThemeDetector()
+    let isDarkTheme = useThemeDetector()
 
     return (
         <div className='titlebar' style={isDarkTheme ? styles.titleBar.dark : styles.titleBar.light} ref={whatref}>

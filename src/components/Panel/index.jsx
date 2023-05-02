@@ -9,6 +9,7 @@ import Note from '../Note'
 import AddExportToolbar from '../AddExportToolbar'
 import { Reorder, useDragControls } from 'framer-motion'
 import { ReorderIcon } from './DragIcon/icon'
+import { useThemeDetector } from '../../hooks/useThemeDetector'
 
 export const TotalNotesContext = createContext(Store)
 
@@ -17,7 +18,7 @@ if (window.localStorage.getItem("chromenote-Store") === null) {
 }
 
 const Panel = forwardRef(function Panel(props, ref) {
-
+    let isDarkTheme = useThemeDetector()
 
     // Saving All Notes as a Local Storage
     let chromenoteStore = window.localStorage.getItem("chromenote-Store")
@@ -51,7 +52,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     const titleBarRef = useRef()
     const [isDragging, setIsDragging] = useState(false)
     const [position, setPosition] = useState({ x: 0, y: 0 })
-    const [componentStyles, setComponentStyles] = useState(styles.panel)
+    const [componentStyles, setComponentStyles] = useState(isDarkTheme ? { ...styles.panel.dark } : { ...styles.panel.light })
 
 
     // ADD SELECTION AS NOTE, COMING FROM TOOLTIP -> APP -> PANEL
@@ -95,7 +96,7 @@ const Panel = forwardRef(function Panel(props, ref) {
                 // Check if the panel is within the bounds of the window
                 setPosition(newPosition)
 
-                setComponentStyles({ ...styles.panel, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` })
+                setComponentStyles(isDarkTheme ? { ...styles.panel.dark, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` } : { ...styles.panel.light, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` })
             }
         }
 
@@ -117,6 +118,10 @@ const Panel = forwardRef(function Panel(props, ref) {
         }
     }, [isDragging, position])
 
+    // Update component styles whenever isDarkTheme changes, includes change in themes in between usage.
+    useEffect(() => {
+        setComponentStyles(isDarkTheme ? { ...styles.panel.dark } : { ...styles.panel.light })
+    }, [isDarkTheme])
 
 
     // ADD NEW NOTE
