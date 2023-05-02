@@ -32,7 +32,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
         setContentStyles(isDarkTheme ?
             {
                 ...styles.note_content,
-                background: "-webkit-linear-gradient(#ffffff, #ffffff, transparent)",
+                background: "-webkit-linear-gradient(#e0e0e0, transparent)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
             }
