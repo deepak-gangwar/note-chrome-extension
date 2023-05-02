@@ -32,7 +32,8 @@ export default {
             transition: "all .2s cubic-bezier(.84, .4, .07, .7)",
             background: "#25262b",
             // color: "#868f97",
-            color: "#f3f3f3",
+            // color: "#f3f3f3",
+            color: "rgb(161, 161, 170)",
         }
     },
 
