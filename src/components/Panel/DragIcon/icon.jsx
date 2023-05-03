@@ -1,16 +1,23 @@
-import { useState } from 'react';
 import styles from './styles'
+import { useState, useEffect } from 'react'
+import { useThemeDetector } from '../../../hooks/useThemeDetector'
 
 export function ReorderIcon({ dragControls }) {
-    const [componentStyles, setComponentStyles] = useState({ ...styles.drag_icon })
+    let isDarkTheme = useThemeDetector()
+    const [componentStyles, setComponentStyles] = useState(isDarkTheme ? { ...styles.drag_icon.dark } : { ...styles.drag_icon.light })
 
     function handleMouseDown() {
-        setComponentStyles({ ...styles.drag_icon, cursor: "grabbing" })
+        setComponentStyles(isDarkTheme ? { ...styles.drag_icon.dark, cursor: "grabbing" } : { ...styles.drag_icon.light, cursor: "grabbing" })
     }
 
     function handleMouseUp() {
-        setComponentStyles({ ...styles.drag_icon, cursor: "grab" })
+        setComponentStyles(isDarkTheme ? { ...styles.drag_icon.dark, cursor: "grab" } : { ...styles.drag_icon.light, cursor: "grab" })
     }
+
+    // Update component styles whenever isDarkTheme changes, includes change in themes in between usage.
+    useEffect(() => {
+        setComponentStyles(isDarkTheme ? { ...styles.drag_icon.dark } : { ...styles.drag_icon.light })
+    }, [isDarkTheme])
 
     return (
         <svg

@@ -1,5 +1,6 @@
 import styles from './styles'
 import { useEffect, useState } from 'react'
+import { useSelection } from '../../hooks/useSelection'
 import Popper from './Popper'
 
 export default function Tooltip({ sendNoteToApp }) {
@@ -37,12 +38,12 @@ export default function Tooltip({ sendNoteToApp }) {
 
     //     window.addEventListener('mouseup', getSelectedText)
     //     return () => {
-        //         window.removeEventListener('mouseup', getSelectedText)
-        //     }
-        // }, [])
+    //         window.removeEventListener('mouseup', getSelectedText)
+    //     }
+    // }, [])
 
 
-        // work only when clicking on add to note
+    // work only when clicking on add to note
 
     useEffect(() => {
         function launchTooltip(event) {
@@ -61,7 +62,7 @@ export default function Tooltip({ sendNoteToApp }) {
     }, [selectedText, topOffset])
 
 
-    function closeTooltip(){
+    function closeTooltip() {
         setIsTooltipVisible(false)
     }
     // CONDITIONALLY RENDERING THE TOOLTIP
@@ -102,7 +103,7 @@ export default function Tooltip({ sendNoteToApp }) {
 
     function addNoteToStore() {
         console.log("note added")
-        if(previousSelectedStr.length > 1) sendNoteToApp(previousSelectedStr)
+        if (previousSelectedStr.length > 1) sendNoteToApp(previousSelectedStr)
         setIsTooltipVisible(false)
         setCurrentStr("")
         setPreviousSelectedStr("")
@@ -114,49 +115,9 @@ export default function Tooltip({ sendNoteToApp }) {
             {/* ================ Tooltip ================ */}
             {isTooltipVisible ? (
                 <div style={{ ...styles.tooltip_container, top: posY, left: posX }}>
-                    <Popper addNote={addNoteToStore} closeTooltip={closeTooltip}/>
+                    <Popper addNote={addNoteToStore} closeTooltip={closeTooltip} />
                 </div>
             ) : ''}
         </>
     )
-}
-
-
-// DEFINING OUR OWN CUSTOM HOOK TO GET SELECTED TEXT
-// =================================================
-
-const useSelection = () => {
-    const [selectedText, setSelectedText] = useState()
-
-    // callback function that updates state with current selection
-    const handleSelectionChange = () => {
-        let selection
-        let text = ''
-
-        // if browser supports selection API
-        if (window.getSelection()) {
-            selection = window.getSelection()
-            text = selection.toString().trim()
-        } else if (document.getSelection()) {
-            selection = document.getSelection()
-            text = selection.toString().trim()
-        } else if (document.selection) {
-            selection = document.selection.createRange().text
-            text = selection.toString().trim()
-        }
-
-        // update state with selected text and Selection object
-        setSelectedText({ text, selection })
-    }
-
-    useEffect(() => {
-        let isSubscribed = true
-        // whenever selection on page changes, call handleSelectionChange callback
-        document.onselectionchange = () => isSubscribed && handleSelectionChange()
-
-        // 'unsubscribe' from event listener on component dismount
-        return () => isSubscribed = false
-    }, [])
-
-    return selectedText
 }

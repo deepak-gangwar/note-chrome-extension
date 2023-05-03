@@ -2,16 +2,19 @@ import styles from './styles'
 import Editor from './Editor'
 import { useState, useContext, useRef, useEffect } from 'react'
 import { TotalNotesContext } from '../Panel'
-
+import { useThemeDetector } from '../../hooks/useThemeDetector'
 
 export default function Note({ myItem, activeValue, changeStatesInParent }) {
     const content = myItem.note
     const inputDiv = useRef(null)
+    let isDarkTheme = useThemeDetector()
+    // let componentThemedStyles = isDarkTheme ? { ...styles.note_wrap.dark } : { ...styles.note_wrap.light }
 
     const [isEditable, setEditable] = useState(false)
     const [inputValue, setInputValue] = useState(content)
     const [truncatedContent, setTruncatedContent] = useState(content)
-    const [componentStyles, setComponentStyles] = useState({ ...styles.note_wrap })
+
+    const [componentStyles, setComponentStyles] = useState(isDarkTheme ? { ...styles.note_wrap.dark } : { ...styles.note_wrap.light })
     const [contentStyles, setContentStyles] = useState({ ...styles.note_content })
 
     const { StoredNotes } = useContext(TotalNotesContext);
@@ -24,17 +27,30 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
         setTruncatedContent(str)
     }
 
+    function setGradient() {
+        // set gradient on the truncated text so it looks blurred out
+        setContentStyles(isDarkTheme ?
+            {
+                ...styles.note_content,
+                background: "-webkit-linear-gradient(#e0e0e0, transparent)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+            }
+            : {
+                ...styles.note_content,
+                background: "-webkit-linear-gradient(#232323, transparent)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+            }
+        )
+    }
+
     useEffect(() => {
         if (!activeValue) {
             // do it only for notes longer than three lines
             if (myItem.note.length > 120) {
                 truncateText()
-                setContentStyles({
-                    ...styles.note_content,
-                    background: "-webkit-linear-gradient(#232323, transparent)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                })
+                setGradient()
             }
         } else {
             setContentStyles({ ...styles.note_content })
@@ -55,18 +71,19 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
     }
 
     function makeNoteColorLight() {
-        if (!activeValue) setComponentStyles({ ...styles.note_wrap, background: "#c7c1db", cursor: "pointer" })
+        // HOVER STYLES
+        if (!activeValue) setComponentStyles(isDarkTheme ? { ...styles.note_wrap.dark, background: "#303134", cursor: "pointer" } : { ...styles.note_wrap.light, background: "#c7c1db", cursor: "pointer" })
     }
 
     function makeNoteColorDark() {
-        if (!activeValue) setComponentStyles({ ...styles.note_wrap })
+        if (!activeValue) setComponentStyles(isDarkTheme ? { ...styles.note_wrap.dark } : { ...styles.note_wrap.light })
     }
 
     useEffect(() => {
         makeNoteColorDark()
         if (!isEditable) {
             // make active note light colored
-            if (activeValue) setComponentStyles({ ...styles.note_wrap, background: "#ddd7f0", cursor: "default" })
+            if (activeValue) setComponentStyles(isDarkTheme ? { ...styles.note_wrap.dark, background: "#ebf05e", color: "rgb(14, 15, 17)", cursor: "default" } : { ...styles.note_wrap.light, background: "#ddd7f0", cursor: "default" })
         } else {
             if (!activeValue) {
                 setEditable(false)
@@ -74,6 +91,11 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
             }
         }
     }, [activeValue])
+
+    // Update component styles whenever isDarkTheme changes, includes change in themes in between usage.
+    useEffect(() => {
+        setComponentStyles(isDarkTheme ? { ...styles.note_wrap.dark } : { ...styles.note_wrap.light })
+    }, [isDarkTheme])
 
     // TOGGLE CRUD EDITOR
     // ==================

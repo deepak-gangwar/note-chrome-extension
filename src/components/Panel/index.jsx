@@ -7,8 +7,9 @@ import Search from '../Search'
 import Blur from '../Blur'
 import Note from '../Note'
 import AddExportToolbar from '../AddExportToolbar'
-import { Reorder, useDragControls } from 'framer-motion'
+import { motion, Reorder, useDragControls } from 'framer-motion'
 import { ReorderIcon } from './DragIcon/icon'
+import { useThemeDetector } from '../../hooks/useThemeDetector'
 
 export const TotalNotesContext = createContext(Store)
 
@@ -17,7 +18,10 @@ if (window.localStorage.getItem("chromenote-Store") === null) {
 }
 
 const Panel = forwardRef(function Panel(props, ref) {
-
+    let isDarkTheme = useThemeDetector()
+    const dragBoundaryRef = useRef()
+    const titleBarRef = useRef()
+    const [componentStyles, setComponentStyles] = useState(isDarkTheme ? { ...styles.panel.dark } : { ...styles.panel.light })
 
     // Saving All Notes as a Local Storage
     let chromenoteStore = window.localStorage.getItem("chromenote-Store")
@@ -26,32 +30,17 @@ const Panel = forwardRef(function Panel(props, ref) {
     // List to Render on Panel
     const [listToRender, setListToRender] = useState(StoredNotes)
 
-    // Current List of Notes to show on Panel
-    // const [currentList, setCurrentList] = useState(StoredNotes)
-
     // To toggle blur screen if note is clicked or else.
     const [isBlurScreenActive, setIsBlurScreenActive] = useState(false)
-
-    // get info for opened note in panel
 
     // to turn off other notes
     // const [whichNoteIsActive, setWhichNoteIsActive] = useState(Array(StoredNotes.length).fill(false))
     // now the state whichNoteIsActive is equal to an array with nine elements and sets them to null
-
     const map = new Map()
     StoredNotes.forEach(item => {
         map.set(item.id, false)
     })
-
     const [whichNoteIsActive, setWhichNoteIsActive] = useState(map)
-
-
-    // Used for dragging the panel
-    const panelRef = useRef()
-    const titleBarRef = useRef()
-    const [isDragging, setIsDragging] = useState(false)
-    const [position, setPosition] = useState({ x: 0, y: 0 })
-    const [componentStyles, setComponentStyles] = useState(styles.panel)
 
 
     // ADD SELECTION AS NOTE, COMING FROM TOOLTIP -> APP -> PANEL
@@ -67,56 +56,13 @@ const Panel = forwardRef(function Panel(props, ref) {
     }))
 
 
-    // FEATURE: DRAG PANEL ACROSS THE SCREEN
-    // =====================================
+    // HANDLE DARK THEME
+    // =================
+    // Update component styles whenever isDarkTheme changes, includes change in themes in between usage.
 
     useEffect(() => {
-        const titleBar = titleBarRef.current
-
-        const handleMouseDown = (event) => {
-            if (event.button === 0) { // check if left mouse button is pressed
-                setIsDragging(true)
-            }
-        };
-
-        const handleMouseUp = () => {
-            setIsDragging(false)
-        }
-
-        const handleMouseMove = (event) => {
-            if (isDragging) {
-                // const bounds = panelRef.current.getBoundingClientRect()
-                const newPosition = {
-                    // Change the multiplied factor to vary the speed and amount
-                    x: position.x + event.movementX * 1,
-                    y: position.y + event.movementY * 1,
-                };
-
-                // Check if the panel is within the bounds of the window
-                setPosition(newPosition)
-
-                setComponentStyles({ ...styles.panel, transform: `translate(${newPosition.x}px, ${newPosition.y}px)` })
-            }
-        }
-
-        const haltMovement = () => {
-            handleMouseUp()
-        }
-
-        // We are listening to mouse events rather than drag events
-        titleBar.addEventListener('mousedown', handleMouseDown)
-        titleBar.addEventListener('mouseup', handleMouseUp)
-        titleBar.addEventListener('mousemove', handleMouseMove)
-        titleBar.addEventListener('mouseleave', haltMovement)
-
-        // Clean up the event listeners when the component unmounts
-        return () => {
-            titleBar.removeEventListener('mousedown', handleMouseDown)
-            titleBar.removeEventListener('mouseup', handleMouseUp)
-            titleBar.removeEventListener('mousemove', handleMouseMove)
-        }
-    }, [isDragging, position])
-
+        setComponentStyles(isDarkTheme ? { ...styles.panel.dark } : { ...styles.panel.light })
+    }, [isDarkTheme])
 
 
     // ADD NEW NOTE
@@ -176,7 +122,6 @@ const Panel = forwardRef(function Panel(props, ref) {
     // MANAGES STATE IN PARENT OF WHICH NOTES ARE ACTIVE
     // =================================================
 
-
     // optimization can be done here using a variable that will improve the speed of closing editor
     // instead of settin every value as false we can set past value of openedEditor as false
     function openNoteHandler(id) {
@@ -189,44 +134,59 @@ const Panel = forwardRef(function Panel(props, ref) {
         setWhichNoteIsActive(activeArrCopy)
     }
 
-    // Ro use in reorder item with framer motion
+    // To use in reorder item with framer motion
     const dragControls = useDragControls()
 
     return (
-        <div className='chromenote-panel' style={componentStyles} ref={panelRef}>
-            <TotalNotesContext.Provider value={{ StoredNotes, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
-                <TitleBar title={":::"} ref={titleBarRef} />
-                <Navbar />
-                {isBlurScreenActive ? <Blur /> : ""}
-                <Search handleTyping={search} />
+        <>
+            {/* ============= Boundary to limit drag of panel ============== */}
+            <div ref={dragBoundaryRef} className='chromenote-drag-boundary' style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}></div>
 
-                {/* ======================= Currently dragging with both controls and item ======================= */}
+            {/* ===================== Panel Component ===================== */}
+            <motion.div
+                className='chromenote-panel'
+                style={componentStyles}
 
-                <Reorder.Group axis="y" values={listToRender} onReorder={setListToRender} className='chromenote-notes_list' style={styles.notes_list}>
-                    {listToRender.map((item) => (
-                        <Reorder.Item key={item.id} value={item} style={styles.notes_list_item} >
-                            {/* <Reorder.Item key={item.id} value={item} dragListener={false} dragControls={dragControls} > */}
-                            <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
-                            <ReorderIcon dragControls={dragControls} />
-                        </Reorder.Item>
+                // framer motion things to make it draggable
+                drag
+                dragMomentum={false}
+                dragElastic={0}
+                dragConstraints={dragBoundaryRef}
+            >
+                <TotalNotesContext.Provider value={{ StoredNotes, isBlurScreenActive, updateCurrentList, addNewNote, activateBlurScreen }}>
+                    <TitleBar title={":::"} ref={titleBarRef} />
+                    <Navbar />
+                    {isBlurScreenActive ? <Blur /> : ""}
+                    <Search handleTyping={search} />
 
-                    ))}
-                </Reorder.Group>
+                    {/* ======================= Currently dragging with both controls and item ======================= */}
 
-                {/* ======================= Original list rendering without framer-motion ======================= */}
-
-                {/* <ul className='chromenote-notes_list' style={styles.notes_list}>
-                    {
-                        listToRender.map((item) => (
-                            <li key={item.id} >
+                    <Reorder.Group axis="y" values={listToRender} onReorder={setListToRender} className='chromenote-notes_list' style={styles.notes_list}>
+                        {listToRender.map((item) => (
+                            <Reorder.Item key={item.id} value={item} style={styles.notes_list_item} >
+                                {/* <Reorder.Item key={item.id} value={item} dragListener={false} dragControls={dragControls} > */}
                                 <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
-                            </li>
-                        ))
-                    }
-                </ul> */}
-                <AddExportToolbar />
-            </TotalNotesContext.Provider>
-        </div>
+                                <ReorderIcon dragControls={dragControls} />
+                            </Reorder.Item>
+
+                        ))}
+                    </Reorder.Group>
+
+                    {/* ======================= Original list rendering without framer-motion ======================= */}
+
+                    {/* <ul className='chromenote-notes_list' style={styles.notes_list}>
+                        {
+                            listToRender.map((item) => (
+                                <li key={item.id} >
+                                    <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
+                                </li>
+                            ))
+                        }
+                    </ul> */}
+                    <AddExportToolbar />
+                </TotalNotesContext.Provider>
+            </motion.div>
+        </>
     )
 })
 
