@@ -137,6 +137,14 @@ const Panel = forwardRef(function Panel(props, ref) {
     // To use in reorder item with framer motion
     const dragControls = useDragControls()
 
+
+    function handleKeyPress(event) {
+        /// connect it with addexportToolbar
+        if (event.key === "/") {
+            event.preventDefault()
+            console.log("open new note box")
+        }
+    }
     return (
         <>
             {/* ============= Boundary to limit drag of panel ============== */}
@@ -146,6 +154,8 @@ const Panel = forwardRef(function Panel(props, ref) {
             <motion.div
                 className='chromenote-panel'
                 style={componentStyles}
+                tabIndex="0"
+                onKeyUp={handleKeyPress}
 
                 // framer motion things to make it draggable
                 drag

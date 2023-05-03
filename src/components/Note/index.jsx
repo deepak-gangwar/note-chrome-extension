@@ -105,6 +105,11 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
         if (!isEditable) changeStatesInParent(myItem.id)
     }
 
+    function closeEditor() {
+        changeStatesInParent(myItem.id)
+    }
+
+
     // CRUD FEATURES IMPLEMENTATION
     // ============================
 
@@ -123,15 +128,42 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
         saveMsg()
     }
 
+
+    /// currenttly not working work on it
+    function handleKeyPress(event) {
+
+        if (event.key === "Escape") {
+            if(activeValue) changeStatesInParent(myItem.id)
+        }
+        if (event.ctrlKey && event.key === "Enter") {
+            setEditable(!isEditable)
+            var foundIndex = StoredNotes.findIndex(x => x.id == myItem.id)
+            StoredNotes[foundIndex].note = inputValue
+            window.localStorage.setItem("chromenote-Store", JSON.stringify(StoredNotes))
+
+            changeStatesInParent(myItem.id)
+        }
+        if (event.key === "Enter") {
+            if(!activeValue) changeStatesInParent(myItem.id)
+        }
+        if (event.key === "Delete") {
+            console.log("delete note")
+        }
+        
+
+
+    }
+
     return (
         <div className='chromenote-note_wrap' style={componentStyles} onMouseEnter={handleNoteMouseEnter} onMouseLeave={handleNoteMouseLeave}>
 
             {/* ================= Wrapper ================== */}
 
-            <div id="note" className='textContentNote' style={styles.content_wrap} onClick={activateCrudEditor}>
+            <div id="note" className='textContentNote'  tabindex="0" onKeyUp={handleKeyPress} style={styles.content_wrap} onClick={activateCrudEditor}>
                 <div
                     ref={inputDiv}
                     onInput={e => setInputValue(e.currentTarget.textContent)}
+
                     spellCheck={false}
                     suppressContentEditableWarning={true}
                     contentEditable={isEditable}
@@ -144,7 +176,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
             {/* =================== Editor =================== */}
 
-            {activeValue ? <Editor handleEditClick={editNote} content={content} /> : ''}
+            {activeValue ? <Editor handleEditClick={editNote} content={content} closeEditor={closeEditor}/> : ''}
         </div>
     )
 }

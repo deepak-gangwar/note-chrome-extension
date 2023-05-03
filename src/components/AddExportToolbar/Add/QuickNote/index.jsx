@@ -28,7 +28,7 @@ export default function QuickNote({ saveHandler, disableHandler }) {
 
     return (
         <div style={styles.quicknote_wrap}>
-            <textarea onKeyDown={handleKeyPress} onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
+            <textarea onKeyUp={handleKeyPress} onChange={(e) => setInputText(e.target.value)} style={styles.textarea} type="text" />
             <Controls onSave={handleSave} onDelete={handleDelete} hintPrompt={promptMsg} />
         </div>
     )

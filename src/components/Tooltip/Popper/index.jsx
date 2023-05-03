@@ -1,6 +1,6 @@
 import styles from './styles'
 
-export default function Popper({ addNote, closeTooltip }) {
+export default function Popper({ addNote, closeTooltip }) { 
     const shareTitlte = "abc"
     const pageUrl = "https://deepakgangwar.com"
 
