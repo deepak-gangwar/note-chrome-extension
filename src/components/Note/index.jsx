@@ -149,7 +149,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
         if (event.key === "Delete") {
             console.log("delete note")
         }
-        
+
 
 
     }
@@ -159,7 +159,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
             {/* ================= Wrapper ================== */}
 
-            <div id="note" className='textContentNote'  tabindex="0" onKeyUp={handleKeyPress} style={styles.content_wrap} onClick={activateCrudEditor}>
+            <div id="note" className='textContentNote'  tabIndex="0" onKeyUp={handleKeyPress} style={styles.content_wrap} onClick={activateCrudEditor}>
                 <div
                     ref={inputDiv}
                     onInput={e => setInputValue(e.currentTarget.textContent)}

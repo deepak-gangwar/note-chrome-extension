@@ -84,7 +84,6 @@ export default function Editor({ content, handleEditClick, closeEditor }) {
     }
 
     function handleKeyPress(event) {
-        console.log("pressed")
         if (event.key === "Escape" || event.key == "Enter") {
             closeEditor()
         }
@@ -156,7 +155,7 @@ export default function Editor({ content, handleEditClick, closeEditor }) {
     )
 
     return (
-        <div className='chromenote-noteEditor' tabindex="0" onKeyUp={handleKeyPress} style={styles.noteEditor}>
+        <div className='chromenote-noteEditor' tabIndex="0" onKeyUp={handleKeyPress} style={styles.noteEditor}>
             {/*  =========== Bottom left message ===========  */}
             <div className='chromenote-editor_left'>
                 <span ref={msg} style={styles.collapse}>Click to Collapse</span>
