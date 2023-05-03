@@ -4,7 +4,7 @@ import { useState, useContext } from 'react'
 import { TotalNotesContext } from '../../Panel'
 
 
-export default function Editor({ content, handleEditClick }) {
+export default function Editor({ content, handleEditClick, closeEditor }) {
     const { currentList, updateCurrentList } = useContext(TotalNotesContext)
 
     // Used in hover styles to modify opacity
@@ -60,7 +60,17 @@ export default function Editor({ content, handleEditClick }) {
 
     function editMsg() {
         msg.current.textContent = "Edit mode on"
-        setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
+
+        // tried to add try and catch block but didn't worked
+        try {
+            setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
+        } catch (error) {
+            if (error instanceof TypeError) {
+                console.log("everything good")
+            } else {
+                console.log("h")
+            }
+        }
     }
 
     function saveMsg() {
@@ -73,6 +83,14 @@ export default function Editor({ content, handleEditClick }) {
         setTimeout(() => { msg.current.textContent = "Click to collapse" }, 1500)
     }
 
+    function handleKeyPress(event) {
+        if (event.key === "Escape" || event.key == "Enter") {
+            closeEditor()
+        }
+        if (event.key === "Delete") {
+            deleteNote()
+        }
+    }
 
     // HANDLE HOVER STYLES FOR EDITOR ICONS
     // ====================================
@@ -137,7 +155,7 @@ export default function Editor({ content, handleEditClick }) {
     )
 
     return (
-        <div className='chromenote-noteEditor' style={styles.noteEditor}>
+        <div className='chromenote-noteEditor' tabIndex="0" onKeyUp={handleKeyPress} style={styles.noteEditor}>
             {/*  =========== Bottom left message ===========  */}
             <div className='chromenote-editor_left'>
                 <span ref={msg} style={styles.collapse}>Click to Collapse</span>

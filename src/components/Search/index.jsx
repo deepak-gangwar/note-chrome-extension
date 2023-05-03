@@ -31,7 +31,7 @@ export default function Search({ handleTyping }) {
 
     return (
         <div className='chromenote-search' style={styles.search} >
-            <input onKeyDown={handleKeyPress} type="chromenote-text" className='bar' style={searchBarStyles} name='search-bar' placeholder="Search for notes..." onChange={(e) => handleChange(e.target.value)} value={text} />
+            <input onKeyUp={handleKeyPress} type="chromenote-text" className='bar' style={searchBarStyles} name='search-bar' placeholder="Search for notes..." onChange={(e) => handleChange(e.target.value)} value={text} />
             <div className='chromenote-button' style={buttonStyles}>
                 <svg className='chromenote-search_icon' style={iconStyles} width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="19.25" cy="19.25" r="12.25" strokeWidth="4" />
