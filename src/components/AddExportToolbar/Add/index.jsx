@@ -19,6 +19,14 @@ export default function Add() {
         updateAddOrExport("Add")
     }
 
+    function handleKeyPress(event) {
+        if (event.key === "Escape") {
+            setIsQuickNoteEnabled(false)
+            activateBlurScreen(false)
+            // updateAddOrExport("None")
+        }
+    }
+
     useEffect(() => {
         if (isQuickNoteEnabled) setIsQuickNoteEnabled(isBlurScreenActive)
     }, [isBlurScreenActive])
@@ -53,7 +61,7 @@ export default function Add() {
             {/* ============= BUTTON ============= */}
 
             <div style={styles.btn_wrap}>
-                <button style={btnStyles} onClick={handleClick}>
+                <button style={btnStyles} onClick={handleClick} onKeyUp={handleKeyPress}>
                     <span style={styles.icon}>
                         <svg style={isDarkTheme ? { ...styles.icon_svg, stroke: "#a0a1ac" } : { ...styles.icon_svg, stroke: "#33363F" }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="1">

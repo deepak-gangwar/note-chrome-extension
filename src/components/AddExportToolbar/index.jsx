@@ -8,7 +8,7 @@ export const ToggleToolbar = createContext(null)
 
 export default function AddExportToolbar() {
     const isDarkTheme = useThemeDetector()
-    const [showAddOrExportOnly, setShowAddOrExportOnly] = useState("none");
+    const [showAddOrExportOnly, setShowAddOrExportOnly] = useState("None");
 
     function updateAddOrExport(showComponent) {
         setShowAddOrExportOnly(showComponent)
