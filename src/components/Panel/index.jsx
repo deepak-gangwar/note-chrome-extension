@@ -79,6 +79,15 @@ const Panel = forwardRef(function Panel(props, ref) {
 
         // !! To trigger re-render (does not serve any other purpose.) !!
         search("")
+        scrollInView()
+    }
+
+    function scrollInView() {
+        setTimeout(() => {
+            const listItems = document.querySelector('.chromenote-notes_list').querySelectorAll('li')
+            const lastNode = listItems[listItems.length - 1]
+            lastNode.scrollIntoView({ behavior: "smooth", block: "end" })
+        }, 100)
     }
 
 
@@ -137,6 +146,13 @@ const Panel = forwardRef(function Panel(props, ref) {
     // To use in reorder item with framer motion
     const dragControls = useDragControls()
 
+    // REORDER ITEMS AFTER DRAG
+    // ========================
+
+    function updateListOrder() {
+        window.localStorage.setItem("chromenote-Store", JSON.stringify(listToRender))
+    }
+
 
     function handleKeyPress(event) {
         /// connect it with addexportToolbar
@@ -173,7 +189,7 @@ const Panel = forwardRef(function Panel(props, ref) {
 
                     <Reorder.Group axis="y" values={listToRender} onReorder={setListToRender} className='chromenote-notes_list' style={styles.notes_list}>
                         {listToRender.map((item) => (
-                            <Reorder.Item key={item.id} value={item} style={styles.notes_list_item} >
+                            <Reorder.Item key={item.id} value={item} style={styles.notes_list_item} onDragEnd={updateListOrder}>
                                 {/* <Reorder.Item key={item.id} value={item} dragListener={false} dragControls={dragControls} > */}
                                 <Note myItem={item} changeStatesInParent={openNoteHandler} activeValue={whichNoteIsActive.get(item.id)} />
                                 <ReorderIcon dragControls={dragControls} />

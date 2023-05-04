@@ -102,7 +102,6 @@ export default function Tooltip({ sendNoteToApp }) {
     // ===========================
 
     function addNoteToStore() {
-        console.log("note added")
         if (previousSelectedStr.length > 1) sendNoteToApp(previousSelectedStr)
         setIsTooltipVisible(false)
         setCurrentStr("")
