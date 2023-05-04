@@ -8,8 +8,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 // "popup": path.resolve('src/popup'),
-                // options: path.resolve('src/options/options.tsx'),
                 // newTab: path.resolve('src/tabs/index.tsx'),
+                "options": path.resolve('src/options'),
                 "background": path.resolve('src/background'),
                 "content-script": path.resolve('src/content-script'),
             },

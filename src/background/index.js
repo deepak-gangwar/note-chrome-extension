@@ -30,3 +30,13 @@ chrome.action.onClicked.addListener((tab) => {
             )
         })
 })
+
+
+// OPEN OPTIONS PAGE WHEN MESSAGE RECEIVED FROM NAVBAR
+// ===================================================
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.type === "openOptionsPage") {
+        chrome.runtime.openOptionsPage()
+    }
+})

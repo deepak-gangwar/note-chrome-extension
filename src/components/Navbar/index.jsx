@@ -1,3 +1,4 @@
+/* global chrome */
 import styles from './styles'
 import { useState, useEffect } from 'react'
 import { useThemeDetector } from '../../hooks/useThemeDetector'
@@ -13,6 +14,16 @@ export default function Navbar() {
         setSettingsStyles(isDarkTheme ? { ...styles.settings_icon_svg.dark } : { ...styles.settings_icon_svg.light })
     }, [isDarkTheme])
 
+    // OPEN THE OPTIONS PAGE
+    // =====================
+
+    function openOptsPage() {
+        // send message to the background script which has the permission
+        // to open options page using chrome.runtime.openOptionsPage()
+
+        chrome.runtime.sendMessage({ type: "openOptionsPage" });
+    }
+
     return (
         <nav className='chromenote-navbar' style={styles.navbar} >
             {/* ============== LOGO ============== */}
@@ -25,7 +36,7 @@ export default function Navbar() {
             </div>
 
             {/* ============= SETTINGS ============= */}
-            <div className="chromenote-settings" style={styles.settings_icon}>
+            <div className="chromenote-settings" style={styles.settings_icon} onClick={openOptsPage}>
                 <svg style={settingsStyles} width="26" height="26" viewBox="0 0 26 26" strokeWidth="0.83871" strokeLinecap="round" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12.9993" cy="12.9998" r="1.08333" />
                     <circle cx="6.49935" cy="12.9998" r="1.08333" />
