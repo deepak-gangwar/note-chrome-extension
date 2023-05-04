@@ -40,7 +40,7 @@ export default function Export() {
 
     // Update component styles whenever isDarkTheme changes, includes change in themes in between usage.
     useEffect(() => {
-        setComponentStyles(isDarkTheme ? { ...styles.export_btn, backgroundColor: "#343739" } : { ...styles.export_btn })
+        setComponentStyles(isDarkTheme ? { ...styles.export_btn, background: "#343739" } : { ...styles.export_btn, background: "rgb(35, 35, 35)" })
     }, [isDarkTheme])
 
     return (
