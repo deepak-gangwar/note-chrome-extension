@@ -79,6 +79,15 @@ const Panel = forwardRef(function Panel(props, ref) {
 
         // !! To trigger re-render (does not serve any other purpose.) !!
         search("")
+        scrollInView()
+    }
+
+    function scrollInView() {
+        setTimeout(() => {
+            const listItems = document.querySelector('.chromenote-notes_list').querySelectorAll('li')
+            const lastNode = listItems[listItems.length - 1]
+            lastNode.scrollIntoView({ behavior: "smooth", block: "end" })
+        }, 100)
     }
 
 
