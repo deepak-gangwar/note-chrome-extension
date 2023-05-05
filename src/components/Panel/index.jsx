@@ -164,7 +164,7 @@ const Panel = forwardRef(function Panel(props, ref) {
     return (
         <>
             {/* ============= Boundary to limit drag of panel ============== */}
-            <div ref={dragBoundaryRef} className='chromenote-drag-boundary' style={{ position: "absolute", inset: 0, zIndex: "-1" }}></div>
+            <div ref={dragBoundaryRef} className='chromenote-drag-boundary' style={{ position: "fixed", inset: 0, zIndex: "-1" }}></div>
 
             {/* ===================== Panel Component ===================== */}
             <motion.div
