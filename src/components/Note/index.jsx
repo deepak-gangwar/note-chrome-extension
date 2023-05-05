@@ -133,7 +133,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
     function handleKeyPress(event) {
 
         if (event.key === "Escape") {
-            if(activeValue) changeStatesInParent(myItem.id)
+            if (activeValue) changeStatesInParent(myItem.id)
         }
         if (event.ctrlKey && event.key === "Enter") {
             setEditable(!isEditable)
@@ -144,7 +144,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
             changeStatesInParent(myItem.id)
         }
         if (event.key === "Enter") {
-            if(!activeValue) changeStatesInParent(myItem.id)
+            if (!activeValue) changeStatesInParent(myItem.id)
         }
         if (event.key === "Delete") {
             console.log("delete note")
@@ -159,7 +159,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
             {/* ================= Wrapper ================== */}
 
-            <div id="note" className='textContentNote'  tabIndex="0" onKeyUp={handleKeyPress} style={styles.content_wrap} onClick={activateCrudEditor}>
+            <div id="note" className='textContentNote' tabIndex="0" onKeyUp={handleKeyPress} style={styles.content_wrap} onClick={activateCrudEditor}>
                 <div
                     ref={inputDiv}
                     onInput={e => setInputValue(e.currentTarget.textContent)}
@@ -176,7 +176,7 @@ export default function Note({ myItem, activeValue, changeStatesInParent }) {
 
             {/* =================== Editor =================== */}
 
-            {activeValue ? <Editor handleEditClick={editNote} content={content} closeEditor={closeEditor}/> : ''}
+            {activeValue ? <Editor handleEditClick={editNote} content={content} closeEditor={closeEditor} /> : ''}
         </div>
     )
 }

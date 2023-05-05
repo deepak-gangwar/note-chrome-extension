@@ -2,7 +2,8 @@ export default {
     search: {
         padding: "1.2rem 2.5rem 0.8rem",
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     bar: {
@@ -64,7 +65,22 @@ export default {
         }
     },
 
+    keyboard_shortcut: {
+        position: "absolute",
+        transform: "scale(0.4)",
+        right: "17%",
+        pointerEvents: "none",
+
+        color: {
+            light: "#00000060",
+            dark: "#ffffff60"
+        }
+    },
+
     search_icon: {
-        transform: "translateY(-2px) scale(0.4)"
+        width: "100%",
+        height: "100%",
+        transform: "translateY(0px) scale(0.45)",
+        // transform: "translateY(-2px) scale(0.4)"
     }
 }

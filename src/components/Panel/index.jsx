@@ -161,6 +161,19 @@ const Panel = forwardRef(function Panel(props, ref) {
             console.log("open new note box")
         }
     }
+
+
+    // ANIMATE LIST ITEMS ON ENTRY
+    // ===========================
+
+    function myFunction() {
+        console.log('animate list items!')
+    }
+
+    useEffect(() => {
+        myFunction()
+    }, [])
+
     return (
         <>
             {/* ============= Boundary to limit drag of panel ============== */}
