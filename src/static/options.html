@@ -5,9 +5,221 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Settings — Note chrome extension</title>
+        <style>
+            body {
+                font-family: Inter, system-ui, Avenir, Helvetica, Arial,
+                    sans-serif;
+                line-height: 1.5;
+                letter-spacing: -0.02em;
+                font-weight: 400;
+                font-synthesis: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-text-size-adjust: 100%;
+            }
+
+            .settings-content {
+                box-sizing: border-box;
+                max-height: 485px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding: 0 8.33vw;
+            }
+
+            .settings-item {
+                box-sizing: border-box;
+                cursor: default;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                position: relative;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                padding-top: 16px;
+                padding-bottom: 16px;
+                display: -ms-flexbox;
+                display: flex;
+                flex-direction: column;
+                -ms-flex-align: center;
+                align-items: center;
+                margin: auto;
+            }
+
+            .item-label {
+                cursor: pointer;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-align: start;
+                align-items: flex-start;
+                position: relative;
+                width: 100%;
+                height: 100%;
+                padding-bottom: 16px;
+            }
+
+            .separator {
+                border-top: 1px solid rgba(0, 0, 0, 0.06);
+                width: 100%;
+            }
+
+            .input {
+                box-sizing: border-box;
+                font-family: inherit;
+                display: none;
+            }
+
+            .toggle-wrap {
+                box-sizing: border-box;
+                position: absolute;
+                right: 0;
+                width: 48px;
+                height: 20px;
+                border-radius: 10px;
+                display: -ms-flexbox;
+                display: flex;
+                vertical-align: baseline;
+                margin-top: 2px;
+                transition: background 0.2s;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                background: #11a683;
+                transition: background 0.3s;
+            }
+
+            .toggle-content {
+                box-sizing: border-box;
+                width: 24px;
+                height: 100%;
+                margin: 0 5px;
+                font-style: normal;
+                font-weight: 700;
+                font-size: 10px;
+                line-height: 16px;
+                letter-spacing: 0.4px;
+                color: #fff;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-align: center;
+                align-items: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+            }
+
+            .toggle-btn {
+                box-sizing: border-box;
+                left: 2px;
+                top: 2px;
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                border-radius: 8px;
+                background: #fff !important;
+                display: inline-block;
+                transition: left 0.2s, background 0.2s;
+                left: 30px;
+            }
+
+            .description {
+                margin-right: auto;
+            }
+
+            .description ul {
+                list-style: none;
+                padding: 0;
+                /* margin: 0; */
+            }
+
+            .description li {
+                margin: 0.5rem 0;
+                opacity: 0.6;
+            }
+        </style>
     </head>
-    <body>
+    <body class="opts_page">
+        <div id="app">
+            <div class="settings-wrapper">
+                <div class="settings-content">
+                    <!-- theme toggle -->
+                    <div class="settings-item">
+                        <label class="item-label">
+                            <div class="lRjE2">
+                                <div data-test-attr="siteControlsLabelText">
+                                    Theme
+                                </div>
+                            </div>
+                            <input class="input" type="checkbox" checked="" />
+                            <div class="toggle-wrap">
+                                <div class="toggle-content">ON</div>
+                                <div class="toggle-btn"></div>
+                            </div>
+                        </label>
+                        <div class="separator"></div>
+                    </div>
+
+                    <!-- storage toggle -->
+                    <div class="settings-item">
+                        <label class="item-label">
+                            <div class="lRjE2">
+                                <div data-test-attr="siteControlsLabelText">
+                                    Save notes locally
+                                </div>
+                            </div>
+                            <input class="input" type="checkbox" checked="" />
+                            <div class="toggle-wrap">
+                                <div class="toggle-content">ON</div>
+                                <div class="toggle-btn"></div>
+                            </div>
+                        </label>
+                        <div class="separator"></div>
+                    </div>
+
+                    <!-- Enable hotkeys toggle -->
+                    <div class="settings-item">
+                        <label class="item-label">
+                            <div class="lRjE2">
+                                <div data-test-attr="siteControlsLabelText">
+                                    Enable Hotkeys
+                                </div>
+                            </div>
+                            <input class="input" type="checkbox" checked="" />
+                            <div class="toggle-wrap">
+                                <div class="toggle-content">ON</div>
+                                <div class="toggle-btn"></div>
+                            </div>
+                        </label>
+                        <div class="description">
+                            <h3>Hotkeys list:</h3>
+                            <ul>
+                                <li>Alt + S - Show/Hide overlay Alt + C -</li>
+                                <li>
+                                    Lock/Unlock overlay Alt + H - Show/Hide
+                                    whole
+                                </li>
+                                <li>
+                                    control panel = - Increase opacity - -
+                                    Decrease
+                                </li>
+                                <li>
+                                    opacity ↑ - Move overlay up ↓ - Move overlay
+                                </li>
+                                <li>
+                                    down ← - Move overlay left → - Move overlay
+                                </li>
+                                <li>
+                                    right Shift + ↑, ↓, ←, → - Move overlay with
+                                    10x speed
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="separator"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h1>This is the options page. We can add settigns here 🤘</h1>
-        <script type="module" src="/options.js"></script>
+        <script type="module" src="/src/options"></script>
     </body>
 </html>

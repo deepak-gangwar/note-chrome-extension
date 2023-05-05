@@ -40,6 +40,7 @@ export default {
         userSelect: 'none',
         WebkitAppRegion: 'drag',
         listStyleType: "none",
+        listStyle: "none",
         height: "340px",
         overflowY: "scroll",
         padding: 0,
