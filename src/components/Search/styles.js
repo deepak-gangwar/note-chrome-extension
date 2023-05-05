@@ -65,6 +65,18 @@ export default {
         }
     },
 
+    keyboard_shortcut: {
+        position: "absolute",
+        transform: "scale(0.4)",
+        right: "17%",
+        pointerEvents: "none",
+
+        color: {
+            light: "#00000060",
+            dark: "#ffffff60"
+        }
+    },
+
     search_icon: {
         width: "100%",
         height: "100%",
