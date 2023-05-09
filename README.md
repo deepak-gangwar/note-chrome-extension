@@ -2,6 +2,11 @@
 
 This is a chrome extension for taking notes while reading on the web.
 
+## Demo 😎
+
+https://github.com/deepak-gangwar/note-chrome-extension/assets/56259752/6ac8979e-e3b2-428f-b8fc-df595542b7a0
+
+
 ## WIP Features ✌
 
 -   [x] Ability to edit notes
